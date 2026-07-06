@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f5f5c" />
+    <meta
+      name="description"
+      content="A personal daily tracker for health, career, confidence, meals, and routines."
+    />
+    <title>Mansi Life Tracker</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="assets/morning-dashboard.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Daily operating system</p>
+          <h1>Mansi Life Tracker</h1>
+        </div>
+        <div class="sync-pill" id="syncPill">Local mode</div>
+      </header>
+
+      <nav class="tabbar" aria-label="Tracker sections">
+        <button class="tab-button active" data-view="today" type="button">
+          Today
+        </button>
+        <button class="tab-button" data-view="dashboard" type="button">
+          Dashboard
+        </button>
+        <button class="tab-button" data-view="plan" type="button">
+          Plan
+        </button>
+        <button class="tab-button" data-view="library" type="button">
+          Library
+        </button>
+        <button class="tab-button" data-view="setup" type="button">
+          Setup
+        </button>
+      </nav>
+
+      <main>
+        <section class="view active" id="today">
+          <div class="hero-grid">
+            <section class="hero-panel">
+              <img
+                src="assets/morning-dashboard.png"
+                alt="Illustration of a calm morning tracker setup with water, yoga mat, breakfast, and laptop charts"
+              />
+              <div class="hero-copy">
+                <p class="eyebrow">Today's focus</p>
+                <h2 id="todayHeadline">Small wins, clean energy.</h2>
+                <p id="todaySubline">
+                  Fill the tracker once. The dashboard will do the remembering.
+                </p>
+              </div>
+            </section>
+
+            <section class="score-panel">
+              <div class="ring" id="todayRing" style="--ring: 0deg">
+                <span id="todayScore">0%</span>
+              </div>
+              <div>
+                <p class="eyebrow">Daily score</p>
+                <h2 id="scoreLabel">Not logged yet</h2>
+                <p class="muted">
+                  Goal: 12k steps, 2L water, protein, movement, skincare,
+                  learning, and confidence.
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <form class="tracker-form" id="dailyForm">
+            <section class="form-section">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Core metrics</p>
+                  <h2>Daily check-in</h2>
+                </div>
+                <button class="ghost-button" id="prefillButton" type="button">
+                  Use today's plan
+                </button>
+              </div>
+
+              <div class="field-grid">
+                <label>
+                  Date
+                  <input id="entryDate" name="date" type="date" required />
+                </label>
+                <label>
+                  Steps
+                  <input
+                    id="steps"
+                    name="steps"
+                    type="number"
+                    min="0"
+                    step="100"
+                    placeholder="12000"
+                  />
+                </label>
+                <label>
+                  Water (L)
+                  <input
+                    id="water"
+                    name="water"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    placeholder="2.0"
+                  />
+                </label>
+                <label>
+                  Protein (g)
+                  <input
+                    id="protein"
+                    name="protein"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="70"
+                  />
+                </label>
+                <label>
+                  Weight (kg)
+                  <input
+                    id="weight"
+                    name="weight"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    placeholder="Optional"
+                  />
+                </label>
+                <label>
+                  Sleep (hours)
+                  <input
+                    id="sleep"
+                    name="sleep"
+                    type="number"
+                    min="0"
+                    max="12"
+                    step="0.25"
+                    placeholder="7"
+                  />
+                </label>
+                <label>
+                  Energy
+                  <select id="energy" name="energy">
+                    <option value="">Select</option>
+                    <option value="1">1 - drained</option>
+                    <option value="2">2 - low</option>
+                    <option value="3">3 - okay</option>
+                    <option value="4">4 - good</option>
+                    <option value="5">5 - strong</option>
+                  </select>
+                </label>
+                <label>
+                  Migraine level
+                  <select id="migraine" name="migraine">
+                    <option value="0">0 - none</option>
+                    <option value="1">1 - mild</option>
+                    <option value="2">2 - noticeable</option>
+                    <option value="3">3 - hard</option>
+                    <option value="4">4 - severe</option>
+                    <option value="5">5 - rest needed</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Habits</p>
+                  <h2>Keep the promise small</h2>
+                </div>
+              </div>
+              <div class="toggle-grid">
+                <label class="toggle-card">
+                  <input id="lemonWater" name="lemonWater" type="checkbox" />
+                  <span>Lemon water</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="yoga" name="yoga" type="checkbox" />
+                  <span>Yoga</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="gym" name="gym" type="checkbox" />
+                  <span>Gym</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="skincareAm" name="skincareAm" type="checkbox" />
+                  <span>AM skincare</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="skincarePm" name="skincarePm" type="checkbox" />
+                  <span>PM skincare</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="plannedSnacks" name="plannedSnacks" type="checkbox" />
+                  <span>Planned snacks</span>
+                </label>
+              </div>
+
+              <div class="field-grid two-col">
+                <label>
+                  Workout type
+                  <select id="workoutType" name="workoutType">
+                    <option value="">None / rest</option>
+                    <option value="Gym A - lower body">Gym A - lower body</option>
+                    <option value="Gym B - upper body">Gym B - upper body</option>
+                    <option value="Gym C - full body">Gym C - full body</option>
+                    <option value="Yoga A - migraine friendly">
+                      Yoga A - migraine friendly
+                    </option>
+                    <option value="Yoga B - strength and flexibility">
+                      Yoga B - strength and flexibility
+                    </option>
+                    <option value="Restorative yoga">Restorative yoga</option>
+                    <option value="Walk only">Walk only</option>
+                  </select>
+                </label>
+                <label>
+                  Junk count
+                  <input
+                    id="junkCount"
+                    name="junkCount"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="0"
+                  />
+                </label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Food</p>
+                  <h2>Vegetarian protein plan</h2>
+                </div>
+              </div>
+              <div class="meal-grid">
+                <label>
+                  Breakfast
+                  <textarea id="breakfast" name="breakfast" rows="3"></textarea>
+                </label>
+                <label>
+                  Lunch
+                  <textarea id="lunch" name="lunch" rows="3"></textarea>
+                </label>
+                <label>
+                  Snack
+                  <textarea id="snack" name="snack" rows="3"></textarea>
+                </label>
+                <label>
+                  Dinner
+                  <textarea id="dinner" name="dinner" rows="3"></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Career and confidence</p>
+                  <h2>One visible rep</h2>
+                </div>
+              </div>
+              <div class="field-grid">
+                <label>
+                  Learning minutes
+                  <input
+                    id="learningMinutes"
+                    name="learningMinutes"
+                    type="number"
+                    min="0"
+                    step="5"
+                    placeholder="25"
+                  />
+                </label>
+                <label>
+                  Learning topic
+                  <select id="learningTopic" name="learningTopic"></select>
+                </label>
+                <label>
+                  Confidence minutes
+                  <input
+                    id="confidenceMinutes"
+                    name="confidenceMinutes"
+                    type="number"
+                    min="0"
+                    step="5"
+                    placeholder="5"
+                  />
+                </label>
+                <label>
+                  English practice
+                  <select id="englishPractice" name="englishPractice">
+                    <option value="">Select</option>
+                    <option>5 min recording</option>
+                    <option>Read aloud</option>
+                    <option>Meeting phrase practice</option>
+                    <option>LinkedIn draft</option>
+                    <option>Book reading</option>
+                  </select>
+                </label>
+              </div>
+              <div class="field-grid two-col">
+                <label>
+                  Work win / blocker clarified
+                  <textarea
+                    id="workWin"
+                    name="workWin"
+                    rows="3"
+                    placeholder="One useful thing I shipped, learned, or clarified"
+                  ></textarea>
+                </label>
+                <label>
+                  Gratitude / fun
+                  <textarea
+                    id="gratitude"
+                    name="gratitude"
+                    rows="3"
+                    placeholder="One small thing that made life feel nice"
+                  ></textarea>
+                </label>
+              </div>
+              <label>
+                Notes
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="3"
+                  placeholder="Migraine triggers, cravings, commute energy, anything useful"
+                ></textarea>
+              </label>
+            </section>
+
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Save daily entry</button>
+              <button class="secondary-button" id="resetFormButton" type="button">
+                Clear form
+              </button>
+              <p class="save-status" id="saveStatus" role="status"></p>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" id="dashboard">
+          <div class="dashboard-header">
+            <div>
+              <p class="eyebrow">Weekly metrics</p>
+              <h2>Your progress board</h2>
+            </div>
+            <button class="ghost-button" id="syncNowButton" type="button">
+              Sync from Sheet
+            </button>
+          </div>
+
+          <div class="metric-grid" id="metricGrid"></div>
+
+          <div class="chart-grid">
+            <section class="chart-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Last 7 days</p>
+                  <h2>Steps, water, protein</h2>
+                </div>
+              </div>
+              <canvas id="weeklyChart" width="900" height="420"></canvas>
+            </section>
+
+            <section class="chart-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Consistency</p>
+                  <h2>28-day heatmap</h2>
+                </div>
+              </div>
+              <div class="heatmap" id="heatmap"></div>
+            </section>
+          </div>
+
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Logbook</p>
+                <h2>Recent entries</h2>
+              </div>
+              <button class="ghost-button" id="exportButton" type="button">
+                Export JSON
+              </button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Steps</th>
+                    <th>Water</th>
+                    <th>Protein</th>
+                    <th>Movement</th>
+                    <th>Migraine</th>
+                    <th>Learning</th>
+                  </tr>
+                </thead>
+                <tbody id="recentRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="plan">
+          <div class="dashboard-header">
+            <div>
+              <p class="eyebrow">Daily plan</p>
+              <h2>Routine, meals, and prep</h2>
+            </div>
+          </div>
+          <div class="timeline" id="routineTimeline"></div>
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Meal rotation</p>
+                <h2>Different food every day</h2>
+              </div>
+            </div>
+            <div class="meal-plan" id="mealPlan"></div>
+          </section>
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Weekend prep</p>
+                <h2>90-minute setup</h2>
+              </div>
+            </div>
+            <div class="prep-grid" id="prepGrid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="library">
+          <div class="dashboard-header">
+            <div>
+              <p class="eyebrow">Library</p>
+              <h2>Gym, yoga, and confidence drills</h2>
+            </div>
+          </div>
+          <div class="library-grid" id="workoutLibrary"></div>
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Confidence</p>
+                <h2>Daily speaking reps</h2>
+              </div>
+            </div>
+            <div class="confidence-grid" id="confidenceGrid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="setup">
+          <div class="dashboard-header">
+            <div>
+              <p class="eyebrow">Setup</p>
+              <h2>Connect Google Sheets</h2>
+            </div>
+          </div>
+
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Database</p>
+                <h2>Apps Script connection</h2>
+              </div>
+            </div>
+            <p class="muted">
+              Paste your deployed Google Apps Script web app URL here. The app
+              stores the URL only in this browser.
+            </p>
+            <div class="field-grid">
+              <label>
+                Apps Script URL
+                <input
+                  id="scriptUrl"
+                  name="scriptUrl"
+                  type="url"
+                  placeholder="https://script.google.com/macros/s/..."
+                />
+              </label>
+              <label>
+                Optional token
+                <input
+                  id="scriptToken"
+                  name="scriptToken"
+                  type="password"
+                  placeholder="Only if you set TRACKER_TOKEN"
+                />
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="primary-button" id="saveSettingsButton" type="button">
+                Save connection
+              </button>
+              <button class="secondary-button" id="testConnectionButton" type="button">
+                Test sync
+              </button>
+              <p class="save-status" id="settingsStatus" role="status"></p>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Goals</p>
+                <h2>Daily targets</h2>
+              </div>
+            </div>
+            <div class="field-grid">
+              <label>
+                Steps goal
+                <input id="goalSteps" type="number" min="1000" step="500" />
+              </label>
+              <label>
+                Water goal (L)
+                <input id="goalWater" type="number" min="0.5" step="0.1" />
+              </label>
+              <label>
+                Protein goal (g)
+                <input id="goalProtein" type="number" min="20" step="5" />
+              </label>
+              <label>
+                Learning goal (min)
+                <input id="goalLearning" type="number" min="5" step="5" />
+              </label>
+              <label>
+                Confidence goal (min)
+                <input id="goalConfidence" type="number" min="5" step="5" />
+              </label>
+              <label>
+                Sleep goal (hours)
+                <input id="goalSleep" type="number" min="4" max="10" step="0.25" />
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="primary-button" id="saveGoalsButton" type="button">
+                Save goals
+              </button>
+              <button class="secondary-button" id="seedDemoButton" type="button">
+                Add demo week
+              </button>
+              <button class="danger-button" id="clearDataButton" type="button">
+                Clear local data
+              </button>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">How to connect</p>
+                <h2>One-time setup</h2>
+              </div>
+            </div>
+            <ol class="setup-list">
+              <li>Create a Google Sheet named <strong>Mansi Life Tracker</strong>.</li>
+              <li>Open Extensions, then Apps Script.</li>
+              <li>Paste the code from <strong>apps-script/Code.gs</strong>.</li>
+              <li>Deploy as a Web App: execute as you, access anyone with link.</li>
+              <li>Paste the Web App URL above and save.</li>
+              <li>
+                Push this folder to GitHub user <strong>mansigoel98</strong> and enable
+                GitHub Pages.
+              </li>
+            </ol>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

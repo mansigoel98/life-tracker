@@ -1,0 +1,17 @@
+{
+  "name": "Mansi Life Tracker",
+  "short_name": "Life Tracker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fbfbf6",
+  "theme_color": "#0f5f5c",
+  "description": "Daily tracker for health, meals, work, confidence, and routines.",
+  "icons": [
+    {
+      "src": "assets/morning-dashboard.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
