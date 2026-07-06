@@ -667,6 +667,7 @@ const visualTemplates = {
 
 let entries = [];
 let settings = structuredClone(DEFAULT_SETTINGS);
+let previousExerciseModalFocus = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadState();
@@ -720,6 +721,14 @@ function formatMealForTextarea(option) {
   return `${option.name} (~${option.calories} kcal, ${option.protein}g protein)\nPortion: ${option.portion}`;
 }
 
+function escapeAttribute(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function renderMealVisual(option) {
   const shapes = visualTemplates[option.visual] || visualTemplates.bowl;
   return `
@@ -751,15 +760,28 @@ function renderExerciseDemo([name, type, cue]) {
   const mediaId = exerciseMedia[type] || exerciseMedia.squat;
   const startFrame = `${exerciseImageBase}/${mediaId}/0.jpg`;
   const moveFrame = `${exerciseImageBase}/${mediaId}/1.jpg`;
+  const safeName = escapeAttribute(name);
+  const safeCue = escapeAttribute(cue);
+  const safeStartFrame = escapeAttribute(startFrame);
+  const safeMoveFrame = escapeAttribute(moveFrame);
   return `
-    <div class="exercise-demo exercise-demo--${type}" title="${name}">
-      <div class="human-demo-stage">
-        <img class="demo-frame demo-frame--start" src="${startFrame}" alt="${name} start position" loading="lazy" decoding="async" />
-        <img class="demo-frame demo-frame--move" src="${moveFrame}" alt="${name} movement position" loading="lazy" decoding="async" />
+    <div class="exercise-demo exercise-demo--${type}" title="${safeName}">
+      <button
+        class="human-demo-stage"
+        type="button"
+        data-exercise-trigger="true"
+        data-exercise-name="${safeName}"
+        data-exercise-cue="${safeCue}"
+        data-start-frame="${safeStartFrame}"
+        data-move-frame="${safeMoveFrame}"
+        aria-label="Open ${safeName} full screen exercise demo"
+      >
+        <img class="demo-frame demo-frame--start" src="${safeStartFrame}" alt="${safeName} start position" loading="lazy" decoding="async" />
+        <img class="demo-frame demo-frame--move" src="${safeMoveFrame}" alt="${safeName} movement position" loading="lazy" decoding="async" />
         <span class="demo-frame-label">start to move</span>
-      </div>
-      <span class="demo-name">${name}</span>
-      <p>${cue}</p>
+      </button>
+      <span class="demo-name">${safeName}</span>
+      <p>${safeCue}</p>
     </div>
   `;
 }
@@ -782,11 +804,68 @@ function bindEvents() {
   document.getElementById("exportButton").addEventListener("click", exportJson);
   document.getElementById("seedDemoButton").addEventListener("click", seedDemoWeek);
   document.getElementById("clearDataButton").addEventListener("click", clearLocalData);
+  bindExerciseModal();
   ["breakfast", "lunch", "snack", "dinner"].forEach((mealType) => {
     document
       .getElementById(`${mealType}Select`)
       .addEventListener("change", (event) => applyMealChoice(mealType, event.target.value));
   });
+}
+
+function bindExerciseModal() {
+  const workoutLibrary = document.getElementById("workoutLibrary");
+  const modal = document.getElementById("exerciseModal");
+  const closeButton = document.getElementById("exerciseModalClose");
+
+  workoutLibrary.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-exercise-trigger]");
+    if (!trigger || !workoutLibrary.contains(trigger)) return;
+    openExerciseModal(trigger.dataset);
+  });
+
+  closeButton.addEventListener("click", closeExerciseModal);
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeExerciseModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+      closeExerciseModal();
+    }
+  });
+}
+
+function openExerciseModal(data) {
+  previousExerciseModalFocus = document.activeElement;
+  const modal = document.getElementById("exerciseModal");
+  const startImage = document.getElementById("exerciseModalStart");
+  const moveImage = document.getElementById("exerciseModalMove");
+  const title = document.getElementById("exerciseModalTitle");
+  const cue = document.getElementById("exerciseModalCue");
+
+  startImage.src = data.startFrame;
+  moveImage.src = data.moveFrame;
+  startImage.alt = `${data.exerciseName} start position`;
+  moveImage.alt = `${data.exerciseName} movement position`;
+  title.textContent = data.exerciseName;
+  cue.textContent = data.exerciseCue;
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  document.getElementById("exerciseModalClose").focus();
+}
+
+function closeExerciseModal() {
+  const modal = document.getElementById("exerciseModal");
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+
+  if (previousExerciseModalFocus && typeof previousExerciseModalFocus.focus === "function") {
+    previousExerciseModalFocus.focus();
+  }
 }
 
 function showView(viewId) {

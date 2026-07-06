@@ -35,6 +35,10 @@ body {
     var(--paper);
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 button,
 input,
 select,
@@ -831,10 +835,17 @@ th {
   grid-row: span 2;
   width: 100%;
   aspect-ratio: 4 / 3;
+  border: 0;
   border-radius: 7px;
   background: #e8eee9;
   overflow: hidden;
+  padding: 0;
   box-shadow: inset 0 0 0 1px rgba(15, 95, 92, 0.1);
+}
+
+.human-demo-stage:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
 }
 
 .demo-frame {
@@ -870,6 +881,70 @@ th {
 @keyframes humanFrameSwap {
   0%, 38%, 100% { opacity: 0; }
   52%, 86% { opacity: 1; }
+}
+
+.exercise-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(12, 20, 20, 0.82);
+}
+
+.exercise-modal.open {
+  display: flex;
+}
+
+.exercise-modal-dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.36fr);
+  gap: 18px;
+  width: min(1120px, 100%);
+  max-height: calc(100vh - 40px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius);
+  background: #fbfbf6;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+
+.exercise-modal-media {
+  position: relative;
+  min-height: min(72vh, 680px);
+  background: #e8eee9;
+}
+
+.exercise-modal-copy {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 28px 28px 28px 10px;
+}
+
+.exercise-modal-copy p:last-child {
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.exercise-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 28px rgba(23, 33, 33, 0.18);
+  font-size: 1.8rem;
+  line-height: 1;
 }
 
 .tag {
@@ -1018,6 +1093,30 @@ th {
 
   .exercise-demo {
     grid-template-columns: minmax(108px, 42%) 1fr;
+  }
+
+  .exercise-modal {
+    padding: 10px;
+  }
+
+  .exercise-modal-dialog {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+  }
+
+  .exercise-modal-media {
+    min-height: min(62vh, 520px);
+  }
+
+  .exercise-modal-copy {
+    padding: 18px;
+  }
+
+  .exercise-modal-close {
+    top: 10px;
+    right: 10px;
   }
 
   .meal-plan {

@@ -673,6 +673,46 @@
       </main>
     </div>
 
+    <div class="exercise-modal" id="exerciseModal" aria-hidden="true">
+      <div
+        class="exercise-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exerciseModalTitle"
+      >
+        <button
+          class="exercise-modal-close"
+          id="exerciseModalClose"
+          type="button"
+          aria-label="Close exercise preview"
+        >
+          ×
+        </button>
+        <div class="exercise-modal-media">
+          <img
+            class="demo-frame demo-frame--start"
+            id="exerciseModalStart"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            class="demo-frame demo-frame--move"
+            id="exerciseModalMove"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="demo-frame-label">start to move</span>
+        </div>
+        <div class="exercise-modal-copy">
+          <p class="eyebrow">Exercise demo</p>
+          <h2 id="exerciseModalTitle">Exercise preview</h2>
+          <p id="exerciseModalCue"></p>
+        </div>
+      </div>
+    </div>
+
     <script src="app.js" defer></script>
   </body>
 </html>
