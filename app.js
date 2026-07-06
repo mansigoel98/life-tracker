@@ -534,6 +534,28 @@ const workoutByDay = {
   Sunday: "Restorative yoga",
 };
 
+const exerciseImageBase =
+  "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises";
+
+const exerciseMedia = {
+  squat: "Bodyweight_Squat",
+  hinge: "Stiff-Legged_Dumbbell_Deadlift",
+  plank: "Plank",
+  catcow: "Cat_Stretch",
+  lunge: "Bodyweight_Walking_Lunge",
+  legs: "90_90_Hamstring",
+  row: "Seated_Cable_Rows",
+  press: "Dumbbell_Shoulder_Press",
+  deadbug: "Dead_Bug",
+  warrior: "Dancers_Stretch",
+  bridge: "Butt_Lift_Bridge",
+  birddog: "Superman",
+  stepup: "Step-up_with_Knee_Raise",
+  carry: "Farmers_Walk",
+  child: "Childs_Pose",
+  twist: "Dancers_Stretch",
+};
+
 const confidenceDrills = [
   ["5-minute audio", "Speak on today's topic. Listen once. Note one improvement."],
   ["Meeting phrase", "Use one phrase like 'The trade-off here is...' in a real meeting."],
@@ -726,26 +748,15 @@ function renderMealOptionCard(id) {
 }
 
 function renderExerciseDemo([name, type, cue]) {
+  const mediaId = exerciseMedia[type] || exerciseMedia.squat;
+  const startFrame = `${exerciseImageBase}/${mediaId}/0.jpg`;
+  const moveFrame = `${exerciseImageBase}/${mediaId}/1.jpg`;
   return `
     <div class="exercise-demo exercise-demo--${type}" title="${name}">
-      <div class="demo-stage">
-        <span class="demo-label demo-label-start">start</span>
-        <span class="demo-label demo-label-move">move</span>
-        <span class="motion-arrow"></span>
-        <span class="body-ghost"></span>
-        <span class="body-line body-line--torso"></span>
-        <span class="body-line body-line--left-arm"></span>
-        <span class="body-line body-line--right-arm"></span>
-        <span class="body-line body-line--left-thigh"></span>
-        <span class="body-line body-line--right-thigh"></span>
-        <span class="body-line body-line--left-shin"></span>
-        <span class="body-line body-line--right-shin"></span>
-        <span class="joint joint--head"></span>
-        <span class="joint joint--chest"></span>
-        <span class="joint joint--hip"></span>
-        <span class="joint joint--left-knee"></span>
-        <span class="joint joint--right-knee"></span>
-        <span class="demo-prop"></span>
+      <div class="human-demo-stage">
+        <img class="demo-frame demo-frame--start" src="${startFrame}" alt="${name} start position" loading="lazy" decoding="async" />
+        <img class="demo-frame demo-frame--move" src="${moveFrame}" alt="${name} movement position" loading="lazy" decoding="async" />
+        <span class="demo-frame-label">start to move</span>
       </div>
       <span class="demo-name">${name}</span>
       <p>${cue}</p>
