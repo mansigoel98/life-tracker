@@ -368,6 +368,9 @@ const weekendRoutine = [
 
 const weekendPrep = [
   ["Protein roti atta", "Mix atta + sattu/soy flour/besan in a 3:1 ratio. Keep dry mix ready for 3 days."],
+  ["Paneer red-pepper protein mayo", "Blend 100g paneer + roasted red bell pepper + garlic + lemon + salt + chilli flakes. Use as sandwich spread or dip."],
+  ["Hung-curd protein dip", "Hang curd for 2-3 hrs, mix with mint, pepper, garlic, and roasted jeera. Use with snack boxes."],
+  ["Creamy tofu dressing", "Blend tofu + lemon + mustard + garlic + water. Use for salad bowls and wraps."],
   ["Rajma/chole base", "Soak overnight, pressure cook, portion 2 boxes. Eat with protein roti, not rice."],
   ["Moong chilla batter", "Soak yellow/green moong dal 4-6 hrs, grind with ginger, chilli, jeera. Store 2 days."],
   ["Besan chilla mix", "Pre-mix besan, ajwain, haldi, salt. Add curd/water and paneer only while cooking."],
@@ -384,6 +387,11 @@ const workouts = [
   {
     title: "Gym A: Lower body + core",
     tag: "Monday",
+    demos: [
+      ["Squat", "squat"],
+      ["Dumbbell hinge", "hinge"],
+      ["Plank", "plank"],
+    ],
     steps: [
       "Treadmill walk - 5 min",
       "Bodyweight squats - 2 x 12",
@@ -398,6 +406,11 @@ const workouts = [
   {
     title: "Yoga A: Migraine-friendly flow",
     tag: "Tuesday",
+    demos: [
+      ["Cat-cow", "catcow"],
+      ["Low lunge", "lunge"],
+      ["Legs on wall", "legs"],
+    ],
     steps: [
       "Seated breathing - 2 min",
       "Neck side stretch - 1 min each side",
@@ -412,6 +425,11 @@ const workouts = [
   {
     title: "Gym B: Upper body + core",
     tag: "Wednesday",
+    demos: [
+      ["Seated row", "row"],
+      ["Shoulder press", "press"],
+      ["Dead bug", "deadbug"],
+    ],
     steps: [
       "Cross-trainer or treadmill - 5 min",
       "Lat pulldown - 3 x 10",
@@ -426,6 +444,11 @@ const workouts = [
   {
     title: "Yoga B: Strength + flexibility",
     tag: "Thursday",
+    demos: [
+      ["Warrior 2", "warrior"],
+      ["Bridge", "bridge"],
+      ["Bird dog", "birddog"],
+    ],
     steps: [
       "Easy breathing - 2 min",
       "Sun salutation - 3 slow rounds",
@@ -440,6 +463,11 @@ const workouts = [
   {
     title: "Gym C: Full body",
     tag: "Friday",
+    demos: [
+      ["Deadlift", "hinge"],
+      ["Step-up", "stepup"],
+      ["Farmer carry", "carry"],
+    ],
     steps: [
       "Brisk treadmill walk - 7 min",
       "Kettlebell or DB deadlift - 3 x 10",
@@ -454,6 +482,11 @@ const workouts = [
   {
     title: "Sunday restorative yoga",
     tag: "Sunday",
+    demos: [
+      ["Child's pose", "child"],
+      ["Legs on wall", "legs"],
+      ["Supine twist", "twist"],
+    ],
     steps: [
       "Child's pose - 3 min",
       "Reclined butterfly - 3 min",
@@ -491,6 +524,39 @@ const confidenceDrills = [
   ["Explain simply", "Explain one Java or system design concept like teaching a junior."],
   ["Story rep", "Tell one small life story with beginning, middle, and end."],
   ["LinkedIn draft", "Write one short backend learning post. Publish later if ready."],
+];
+
+const resourceLinks = [
+  {
+    title: "BBC 6 Minute English",
+    type: "Listening + vocabulary",
+    url: "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english",
+    note: "Short episodes; good for commute-light days or morning listening.",
+  },
+  {
+    title: "BBC The English We Speak",
+    type: "Phrases and idioms",
+    url: "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak",
+    note: "Useful everyday expressions without heavy effort.",
+  },
+  {
+    title: "TED Talks Daily",
+    type: "Ideas + speaking style",
+    url: "https://www.ted.com/podcasts/ted-talks-daily",
+    note: "Listen for structure: opening, story, point, close.",
+  },
+  {
+    title: "Toastmasters International",
+    type: "Public speaking",
+    url: "https://www.youtube.com/user/Toastmasters",
+    note: "Practical speaking tips and stage confidence basics.",
+  },
+  {
+    title: "Vinh Giang",
+    type: "Voice + communication",
+    url: "https://www.youtube.com/@askvinh",
+    note: "Good for voice, pauses, presence, and confident delivery.",
+  },
 ];
 
 const visualTemplates = {
@@ -601,6 +667,12 @@ function getMealOption(id) {
   return mealCatalog[id] || mealCatalog["paneer-besan-chilla"];
 }
 
+function mealOptionsFor(mealName) {
+  return Object.entries(mealCatalog)
+    .filter(([, option]) => option.meal === mealName)
+    .sort(([, a], [, b]) => a.name.localeCompare(b.name));
+}
+
 function primaryMeal(day, mealType) {
   return getMealOption(mealPlan[day][mealType][0]);
 }
@@ -636,6 +708,23 @@ function renderMealOptionCard(id) {
   `;
 }
 
+function renderExerciseDemo([name, type]) {
+  return `
+    <div class="exercise-demo exercise-demo--${type}" title="${name}">
+      <div class="demo-stage">
+        <span class="demo-head"></span>
+        <span class="demo-body"></span>
+        <span class="demo-arm demo-arm-left"></span>
+        <span class="demo-arm demo-arm-right"></span>
+        <span class="demo-leg demo-leg-left"></span>
+        <span class="demo-leg demo-leg-right"></span>
+        <span class="demo-prop"></span>
+      </div>
+      <span>${name}</span>
+    </div>
+  `;
+}
+
 function bindEvents() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", () => showView(button.dataset.view));
@@ -654,6 +743,11 @@ function bindEvents() {
   document.getElementById("exportButton").addEventListener("click", exportJson);
   document.getElementById("seedDemoButton").addEventListener("click", seedDemoWeek);
   document.getElementById("clearDataButton").addEventListener("click", clearLocalData);
+  ["breakfast", "lunch", "snack", "dinner"].forEach((mealType) => {
+    document
+      .getElementById(`${mealType}Select`)
+      .addEventListener("change", (event) => applyMealChoice(mealType, event.target.value));
+  });
 }
 
 function showView(viewId) {
@@ -673,6 +767,22 @@ function hydrateStaticContent() {
   topicSelect.innerHTML = Object.values(learningByDay)
     .map((topic) => `<option>${topic}</option>`)
     .join("");
+
+  const mealSelects = {
+    breakfast: "Breakfast",
+    lunch: "Lunch",
+    snack: "Snack",
+    dinner: "Dinner",
+  };
+  Object.entries(mealSelects).forEach(([mealType, mealName]) => {
+    const select = document.getElementById(`${mealType}Select`);
+    select.innerHTML = mealOptionsFor(mealName)
+      .map(
+        ([id, option]) =>
+          `<option value="${id}">${option.name} - ${option.calories} kcal, ${option.protein}g protein</option>`,
+      )
+      .join("");
+  });
 
   document.getElementById("routineTimeline").innerHTML = routine
     .map(
@@ -745,6 +855,9 @@ function hydrateStaticContent() {
             <h3>${workout.title}</h3>
             <span class="tag">${workout.tag}</span>
           </header>
+          <div class="exercise-demo-grid">
+            ${(workout.demos || []).map((demo) => renderExerciseDemo(demo)).join("")}
+          </div>
           <ol>
             ${workout.steps.map((step) => `<li>${step}</li>`).join("")}
           </ol>
@@ -760,6 +873,18 @@ function hydrateStaticContent() {
           <h3>${title}</h3>
           <p class="muted">${detail}</p>
         </article>
+      `,
+    )
+    .join("");
+
+  document.getElementById("resourceGrid").innerHTML = resourceLinks
+    .map(
+      (item) => `
+        <a class="resource-card" href="${item.url}" target="_blank" rel="noopener noreferrer">
+          <span class="tag">${item.type}</span>
+          <h3>${item.title}</h3>
+          <p>${item.note}</p>
+        </a>
       `,
     )
     .join("");
@@ -793,17 +918,23 @@ function prefillMeals() {
   const lunch = primaryMeal(day, "lunch");
   const snack = primaryMeal(day, "snack");
   const dinner = primaryMeal(day, "dinner");
-  document.getElementById("breakfast").value = formatMealForTextarea(breakfast);
-  document.getElementById("lunch").value = formatMealForTextarea(lunch);
-  document.getElementById("snack").value = formatMealForTextarea(snack);
-  document.getElementById("dinner").value = formatMealForTextarea(dinner);
-  document.getElementById("breakfastCalories").value = breakfast.calories;
-  document.getElementById("lunchCalories").value = lunch.calories;
-  document.getElementById("snackCalories").value = snack.calories;
-  document.getElementById("dinnerCalories").value = dinner.calories;
+  document.getElementById("breakfastSelect").value = mealPlan[day].breakfast[0];
+  document.getElementById("lunchSelect").value = mealPlan[day].lunch[0];
+  document.getElementById("snackSelect").value = mealPlan[day].snack[0];
+  document.getElementById("dinnerSelect").value = mealPlan[day].dinner[0];
+  applyMealChoice("breakfast", mealPlan[day].breakfast[0]);
+  applyMealChoice("lunch", mealPlan[day].lunch[0]);
+  applyMealChoice("snack", mealPlan[day].snack[0]);
+  applyMealChoice("dinner", mealPlan[day].dinner[0]);
   document.getElementById("todayHeadline").textContent = `${day}'s plan is ready.`;
   document.getElementById("todaySubline").textContent =
     `${breakfast.name} | ${learningByDay[day]}`;
+}
+
+function applyMealChoice(mealType, optionId) {
+  const option = getMealOption(optionId);
+  document.getElementById(mealType).value = formatMealForTextarea(option);
+  document.getElementById(`${mealType}Calories`).value = option.calories;
 }
 
 function loadEntryForDate(date) {

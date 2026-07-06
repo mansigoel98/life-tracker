@@ -786,6 +786,223 @@ th {
   margin-bottom: 8px;
 }
 
+.exercise-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.exercise-demo {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  border: 1px solid #e3e9e4;
+  border-radius: var(--radius);
+  background: #fffdf8;
+  padding: 8px 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.demo-stage {
+  position: relative;
+  width: 54px;
+  height: 58px;
+  overflow: hidden;
+}
+
+.demo-head,
+.demo-body,
+.demo-arm,
+.demo-leg,
+.demo-prop {
+  position: absolute;
+  display: block;
+  background: var(--teal);
+}
+
+.demo-head {
+  left: 22px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.demo-body {
+  left: 26px;
+  top: 17px;
+  width: 5px;
+  height: 22px;
+  border-radius: 999px;
+  transform-origin: top center;
+}
+
+.demo-arm,
+.demo-leg {
+  width: 5px;
+  height: 20px;
+  border-radius: 999px;
+  transform-origin: top center;
+}
+
+.demo-arm-left {
+  left: 23px;
+  top: 19px;
+  transform: rotate(42deg);
+}
+
+.demo-arm-right {
+  left: 30px;
+  top: 19px;
+  transform: rotate(-42deg);
+}
+
+.demo-leg-left {
+  left: 24px;
+  top: 37px;
+  transform: rotate(20deg);
+}
+
+.demo-leg-right {
+  left: 29px;
+  top: 37px;
+  transform: rotate(-20deg);
+}
+
+.demo-prop {
+  left: 11px;
+  top: 50px;
+  width: 34px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--coral);
+  opacity: 0.8;
+}
+
+.exercise-demo--squat .demo-body,
+.exercise-demo--squat .demo-leg-left,
+.exercise-demo--squat .demo-leg-right {
+  animation: squatMotion 1.4s ease-in-out infinite;
+}
+
+.exercise-demo--hinge .demo-body,
+.exercise-demo--hinge .demo-arm-left,
+.exercise-demo--hinge .demo-arm-right {
+  animation: hingeMotion 1.5s ease-in-out infinite;
+}
+
+.exercise-demo--plank .demo-stage {
+  transform: rotate(90deg) translateX(4px);
+}
+
+.exercise-demo--lunge .demo-leg-left {
+  animation: lungeMotion 1.5s ease-in-out infinite;
+}
+
+.exercise-demo--row .demo-arm-left,
+.exercise-demo--row .demo-arm-right {
+  animation: rowMotion 1.2s ease-in-out infinite;
+}
+
+.exercise-demo--press .demo-arm-left,
+.exercise-demo--press .demo-arm-right {
+  animation: pressMotion 1.3s ease-in-out infinite;
+}
+
+.exercise-demo--deadbug .demo-stage,
+.exercise-demo--legs .demo-stage,
+.exercise-demo--bridge .demo-stage,
+.exercise-demo--child .demo-stage,
+.exercise-demo--twist .demo-stage {
+  transform: rotate(90deg) translateX(3px);
+}
+
+.exercise-demo--warrior .demo-leg-left {
+  transform: rotate(68deg);
+}
+
+.exercise-demo--warrior .demo-leg-right {
+  transform: rotate(-68deg);
+}
+
+.exercise-demo--birddog .demo-arm-left,
+.exercise-demo--birddog .demo-leg-right {
+  animation: birdDogMotion 1.5s ease-in-out infinite;
+}
+
+.exercise-demo--stepup .demo-prop {
+  height: 8px;
+  top: 47px;
+}
+
+.exercise-demo--stepup .demo-leg-left {
+  animation: stepMotion 1.3s ease-in-out infinite;
+}
+
+.exercise-demo--carry .demo-prop {
+  left: 8px;
+  top: 26px;
+  width: 40px;
+  height: 5px;
+}
+
+.exercise-demo--carry .demo-stage {
+  animation: carryMotion 1.4s ease-in-out infinite;
+}
+
+.exercise-demo--catcow .demo-body {
+  animation: catCowMotion 1.4s ease-in-out infinite;
+}
+
+@keyframes squatMotion {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(8px) rotate(0); }
+}
+
+@keyframes hingeMotion {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(46deg); }
+}
+
+@keyframes lungeMotion {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(70deg) translateY(5px); }
+}
+
+@keyframes rowMotion {
+  0%, 100% { transform: rotate(60deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes pressMotion {
+  0%, 100% { transform: rotate(42deg); top: 19px; }
+  50% { transform: rotate(178deg); top: 8px; }
+}
+
+@keyframes birdDogMotion {
+  0%, 100% { transform: rotate(42deg); }
+  50% { transform: rotate(105deg); }
+}
+
+@keyframes stepMotion {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(-65deg) translateY(-5px); }
+}
+
+@keyframes carryMotion {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(3px); }
+}
+
+@keyframes catCowMotion {
+  0%, 100% { transform: scaleY(0.75) rotate(70deg); }
+  50% { transform: scaleY(1.1) rotate(95deg); }
+}
+
 .tag {
   border-radius: 999px;
   color: #7a3e31;
@@ -807,6 +1024,40 @@ th {
   padding: 16px;
 }
 
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.resource-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 170px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: inherit;
+  padding: 16px;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 95, 92, 0.32);
+  box-shadow: var(--shadow);
+}
+
+.resource-card p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .setup-list li + li {
   margin-top: 8px;
 }
@@ -823,6 +1074,7 @@ th {
   .metric-grid,
   .library-grid,
   .confidence-grid,
+  .resource-grid,
   .prep-grid,
   .weekend-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -885,9 +1137,14 @@ th {
   .metric-grid,
   .library-grid,
   .confidence-grid,
+  .resource-grid,
   .prep-grid,
   .weekend-grid {
     grid-template-columns: 1fr;
+  }
+
+  .exercise-demo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .meal-plan {
