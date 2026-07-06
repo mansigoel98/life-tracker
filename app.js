@@ -344,10 +344,10 @@ const routine = [
 const weekendRoutine = [
   {
     day: "Saturday",
-    focus: "Skill, driving, fun",
+    focus: "Mobility, dance, skill, fun",
     blocks: [
       "Wake naturally by 8:30 am, lemon water, bath, AM skincare",
-      "45-60 min walk, gym, dance, or driving class",
+      "Saturday mobility + dance: walk, hip openers, glute bridge, easy dance steps",
       "2-hour deep learning block: Java/Kubernetes/system design",
       "Meal prep shopping and one fun plan with Vibhor/friends",
       "Night skincare and sleep before the week gets noisy",
@@ -388,9 +388,9 @@ const workouts = [
     title: "Gym A: Lower body + core",
     tag: "Monday",
     demos: [
-      ["Squat", "squat"],
-      ["Dumbbell hinge", "hinge"],
-      ["Plank", "plank"],
+      ["Squat", "squat", "Feet shoulder-width. Push hips back, knees out, chest tall."],
+      ["Dumbbell hinge", "hinge", "Soft knees. Push hips back, keep spine neutral, feel hamstrings."],
+      ["Plank", "plank", "Elbows under shoulders. Tighten core and keep breathing slowly."],
     ],
     steps: [
       "Treadmill walk - 5 min",
@@ -407,9 +407,9 @@ const workouts = [
     title: "Yoga A: Migraine-friendly flow",
     tag: "Tuesday",
     demos: [
-      ["Cat-cow", "catcow"],
-      ["Low lunge", "lunge"],
-      ["Legs on wall", "legs"],
+      ["Cat-cow", "catcow", "Inhale arch gently. Exhale round the back slowly."],
+      ["Low lunge", "lunge", "Front knee over ankle. Back knee down. Relax shoulders."],
+      ["Legs on wall", "legs", "Hips near wall. Legs relaxed. Slow nasal breathing."],
     ],
     steps: [
       "Seated breathing - 2 min",
@@ -426,9 +426,9 @@ const workouts = [
     title: "Gym B: Upper body + core",
     tag: "Wednesday",
     demos: [
-      ["Seated row", "row"],
-      ["Shoulder press", "press"],
-      ["Dead bug", "deadbug"],
+      ["Seated row", "row", "Pull elbows back. Squeeze shoulder blades, avoid shrugging."],
+      ["Shoulder press", "press", "Ribs down. Press up smoothly. Do not lock neck."],
+      ["Dead bug", "deadbug", "Low back gently down. Move opposite arm and leg slowly."],
     ],
     steps: [
       "Cross-trainer or treadmill - 5 min",
@@ -445,9 +445,9 @@ const workouts = [
     title: "Yoga B: Strength + flexibility",
     tag: "Thursday",
     demos: [
-      ["Warrior 2", "warrior"],
-      ["Bridge", "bridge"],
-      ["Bird dog", "birddog"],
+      ["Warrior 2", "warrior", "Front knee bent. Back leg strong. Arms long, gaze forward."],
+      ["Bridge", "bridge", "Feet close to hips. Lift hips, squeeze glutes, breathe."],
+      ["Bird dog", "birddog", "Opposite arm and leg. Hips steady. Move slowly."],
     ],
     steps: [
       "Easy breathing - 2 min",
@@ -464,9 +464,9 @@ const workouts = [
     title: "Gym C: Full body",
     tag: "Friday",
     demos: [
-      ["Deadlift", "hinge"],
-      ["Step-up", "stepup"],
-      ["Farmer carry", "carry"],
+      ["Deadlift", "hinge", "Hinge from hips. Weight close to legs. Stand tall."],
+      ["Step-up", "stepup", "Whole foot on step. Push through heel, control down."],
+      ["Farmer carry", "carry", "Hold weights. Walk tall, shoulders down, core braced."],
     ],
     steps: [
       "Brisk treadmill walk - 7 min",
@@ -480,12 +480,29 @@ const workouts = [
     ],
   },
   {
+    title: "Saturday: Mobility + dance",
+    tag: "Saturday",
+    demos: [
+      ["Hip opener", "lunge", "Front knee over ankle. Sink hips gently, breathe slowly."],
+      ["Beginner dance step", "stepup", "Step side-to-side. Knees soft, shoulders relaxed."],
+      ["Glute bridge", "bridge", "Feet close to hips. Lift hips, squeeze glutes, breathe."],
+    ],
+    steps: [
+      "Brisk walk - 10 min",
+      "Hip opener lunge - 1 min each side",
+      "Bodyweight squat - 2 x 12",
+      "Glute bridge - 2 x 15",
+      "Beginner dance routine - 10-15 min",
+      "Hamstring, calf, and neck stretch - 6 min",
+    ],
+  },
+  {
     title: "Sunday restorative yoga",
     tag: "Sunday",
     demos: [
-      ["Child's pose", "child"],
-      ["Legs on wall", "legs"],
-      ["Supine twist", "twist"],
+      ["Child's pose", "child", "Knees wide. Forehead down. Let back and neck soften."],
+      ["Legs on wall", "legs", "Legs supported. Jaw relaxed. Breathe without forcing."],
+      ["Supine twist", "twist", "Knees to one side. Keep shoulders soft and supported."],
     ],
     steps: [
       "Child's pose - 3 min",
@@ -513,7 +530,7 @@ const workoutByDay = {
   Wednesday: "Gym B - upper body",
   Thursday: "Yoga B - strength and flexibility",
   Friday: "Gym C - full body",
-  Saturday: "Walk only",
+  Saturday: "Saturday mobility + dance",
   Sunday: "Restorative yoga",
 };
 
@@ -708,19 +725,30 @@ function renderMealOptionCard(id) {
   `;
 }
 
-function renderExerciseDemo([name, type]) {
+function renderExerciseDemo([name, type, cue]) {
   return `
     <div class="exercise-demo exercise-demo--${type}" title="${name}">
       <div class="demo-stage">
-        <span class="demo-head"></span>
-        <span class="demo-body"></span>
-        <span class="demo-arm demo-arm-left"></span>
-        <span class="demo-arm demo-arm-right"></span>
-        <span class="demo-leg demo-leg-left"></span>
-        <span class="demo-leg demo-leg-right"></span>
+        <span class="demo-label demo-label-start">start</span>
+        <span class="demo-label demo-label-move">move</span>
+        <span class="motion-arrow"></span>
+        <span class="body-ghost"></span>
+        <span class="body-line body-line--torso"></span>
+        <span class="body-line body-line--left-arm"></span>
+        <span class="body-line body-line--right-arm"></span>
+        <span class="body-line body-line--left-thigh"></span>
+        <span class="body-line body-line--right-thigh"></span>
+        <span class="body-line body-line--left-shin"></span>
+        <span class="body-line body-line--right-shin"></span>
+        <span class="joint joint--head"></span>
+        <span class="joint joint--chest"></span>
+        <span class="joint joint--hip"></span>
+        <span class="joint joint--left-knee"></span>
+        <span class="joint joint--right-knee"></span>
         <span class="demo-prop"></span>
       </div>
-      <span>${name}</span>
+      <span class="demo-name">${name}</span>
+      <p>${cue}</p>
     </div>
   `;
 }
@@ -1054,7 +1082,7 @@ function calculateScore(entry) {
     entry.totalCalories > 0 && entry.totalCalories <= goals.calories,
     entry.sleep >= goals.sleep,
     entry.lemonWater,
-    entry.gymYoga || entry.yoga || entry.gym || entry.workoutType === "Walk only",
+    entry.gymYoga || entry.yoga || entry.gym || Boolean(entry.workoutType),
     entry.skincareAm,
     entry.skincarePm,
     entry.plannedSnacks,
@@ -1562,6 +1590,7 @@ function seedDemoWeek() {
           day === "Wednesday" ||
           day === "Thursday" ||
           day === "Friday" ||
+          day === "Saturday" ||
           day === "Sunday",
         greenTea: Math.random() > 0.25,
         skincareAm: Math.random() > 0.15,

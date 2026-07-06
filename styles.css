@@ -789,218 +789,384 @@ th {
 .exercise-demo-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
   margin: 12px 0;
 }
 
 .exercise-demo {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   justify-items: center;
+  align-content: start;
   border: 1px solid #e3e9e4;
   border-radius: var(--radius);
   background: #fffdf8;
-  padding: 8px 6px;
+  padding: 12px 9px;
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 900;
   text-align: center;
 }
 
+.exercise-demo .demo-name {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.exercise-demo p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.71rem;
+  font-weight: 750;
+  line-height: 1.28;
+}
+
 .demo-stage {
   position: relative;
-  width: 54px;
-  height: 58px;
+  width: 112px;
+  height: 104px;
+  border-radius: 7px;
+  background:
+    linear-gradient(180deg, rgba(223, 245, 232, 0.65), rgba(255, 253, 248, 0.4)),
+    #fbfbf6;
   overflow: hidden;
 }
 
-.demo-head,
-.demo-body,
-.demo-arm,
-.demo-leg,
+.demo-stage::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 13px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(15, 95, 92, 0.16);
+}
+
+.demo-label {
+  position: absolute;
+  z-index: 3;
+  border-radius: 999px;
+  padding: 3px 6px;
+  font-size: 0.56rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.demo-label-start {
+  left: 7px;
+  top: 7px;
+  color: var(--teal);
+  background: var(--mint);
+}
+
+.demo-label-move {
+  right: 7px;
+  top: 7px;
+  color: #7a3e31;
+  background: var(--rose);
+}
+
+.motion-arrow {
+  position: absolute;
+  z-index: 2;
+  right: 13px;
+  top: 42px;
+  width: 28px;
+  height: 18px;
+  border-top: 3px solid var(--coral);
+  border-right: 3px solid var(--coral);
+  border-radius: 0 12px 0 0;
+  opacity: 0.85;
+}
+
+.motion-arrow::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: -6px;
+  border-left: 7px solid var(--coral);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transform: rotate(38deg);
+}
+
+.body-ghost {
+  position: absolute;
+  left: 59px;
+  top: 31px;
+  width: 34px;
+  height: 48px;
+  border: 2px dashed rgba(15, 95, 92, 0.25);
+  border-radius: 45% 45% 38% 38%;
+  transform: rotate(var(--ghost-rot, 0deg));
+}
+
+.body-line,
+.joint,
 .demo-prop {
   position: absolute;
   display: block;
+  z-index: 2;
+}
+
+.body-line {
+  width: 7px;
+  height: var(--h, 24px);
+  border-radius: 999px;
+  background: var(--teal);
+  left: var(--x, 50px);
+  top: var(--y, 30px);
+  transform: rotate(var(--rot, 0deg));
+  transform-origin: top center;
+  box-shadow: 0 4px 8px rgba(15, 95, 92, 0.12);
+}
+
+.joint {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--coral);
+  left: var(--x, 50px);
+  top: var(--y, 30px);
+  box-shadow: 0 0 0 3px rgba(238, 118, 95, 0.16);
+}
+
+.joint--head {
+  --x: 50px;
+  --y: 20px;
+  width: 17px;
+  height: 17px;
   background: var(--teal);
 }
 
-.demo-head {
-  left: 22px;
-  top: 4px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+.joint--chest {
+  --x: 53px;
+  --y: 42px;
 }
 
-.demo-body {
-  left: 26px;
-  top: 17px;
-  width: 5px;
-  height: 22px;
-  border-radius: 999px;
-  transform-origin: top center;
+.joint--hip {
+  --x: 53px;
+  --y: 62px;
 }
 
-.demo-arm,
-.demo-leg {
-  width: 5px;
-  height: 20px;
-  border-radius: 999px;
-  transform-origin: top center;
+.joint--left-knee {
+  --x: 39px;
+  --y: 78px;
 }
 
-.demo-arm-left {
-  left: 23px;
-  top: 19px;
-  transform: rotate(42deg);
+.joint--right-knee {
+  --x: 67px;
+  --y: 78px;
 }
 
-.demo-arm-right {
-  left: 30px;
-  top: 19px;
-  transform: rotate(-42deg);
+.body-line--torso {
+  --x: 55px;
+  --y: 38px;
+  --h: 27px;
 }
 
-.demo-leg-left {
-  left: 24px;
-  top: 37px;
-  transform: rotate(20deg);
+.body-line--left-arm {
+  --x: 52px;
+  --y: 42px;
+  --h: 25px;
+  --rot: 45deg;
 }
 
-.demo-leg-right {
-  left: 29px;
-  top: 37px;
-  transform: rotate(-20deg);
+.body-line--right-arm {
+  --x: 61px;
+  --y: 42px;
+  --h: 25px;
+  --rot: -45deg;
+}
+
+.body-line--left-thigh {
+  --x: 54px;
+  --y: 64px;
+  --h: 24px;
+  --rot: 28deg;
+}
+
+.body-line--right-thigh {
+  --x: 59px;
+  --y: 64px;
+  --h: 24px;
+  --rot: -28deg;
+}
+
+.body-line--left-shin {
+  --x: 42px;
+  --y: 81px;
+  --h: 22px;
+  --rot: -8deg;
+}
+
+.body-line--right-shin {
+  --x: 71px;
+  --y: 81px;
+  --h: 22px;
+  --rot: 8deg;
 }
 
 .demo-prop {
-  left: 11px;
-  top: 50px;
-  width: 34px;
-  height: 4px;
+  left: 22px;
+  top: 85px;
+  width: 68px;
+  height: 6px;
   border-radius: 999px;
   background: var(--coral);
-  opacity: 0.8;
+  opacity: 0.72;
 }
 
-.exercise-demo--squat .demo-body,
-.exercise-demo--squat .demo-leg-left,
-.exercise-demo--squat .demo-leg-right {
-  animation: squatMotion 1.4s ease-in-out infinite;
+.exercise-demo--squat .body-line--torso,
+.exercise-demo--squat .body-line--left-thigh,
+.exercise-demo--squat .body-line--right-thigh,
+.exercise-demo--squat .joint--hip,
+.exercise-demo--squat .joint--left-knee,
+.exercise-demo--squat .joint--right-knee {
+  animation: demoBounce 1.6s ease-in-out infinite;
 }
 
-.exercise-demo--hinge .demo-body,
-.exercise-demo--hinge .demo-arm-left,
-.exercise-demo--hinge .demo-arm-right {
-  animation: hingeMotion 1.5s ease-in-out infinite;
+.exercise-demo--squat .body-line--left-thigh {
+  --rot: 72deg;
 }
 
-.exercise-demo--plank .demo-stage {
-  transform: rotate(90deg) translateX(4px);
+.exercise-demo--squat .body-line--right-thigh {
+  --rot: -72deg;
 }
 
-.exercise-demo--lunge .demo-leg-left {
-  animation: lungeMotion 1.5s ease-in-out infinite;
+.exercise-demo--hinge .body-line--torso {
+  --rot: 62deg;
+  --x: 50px;
 }
 
-.exercise-demo--row .demo-arm-left,
-.exercise-demo--row .demo-arm-right {
-  animation: rowMotion 1.2s ease-in-out infinite;
+.exercise-demo--hinge .body-line--left-arm,
+.exercise-demo--hinge .body-line--right-arm {
+  --rot: 6deg;
+  --h: 30px;
 }
 
-.exercise-demo--press .demo-arm-left,
-.exercise-demo--press .demo-arm-right {
-  animation: pressMotion 1.3s ease-in-out infinite;
+.exercise-demo--hinge .joint--head {
+  --x: 76px;
+  --y: 34px;
 }
 
-.exercise-demo--deadbug .demo-stage,
-.exercise-demo--legs .demo-stage,
-.exercise-demo--bridge .demo-stage,
-.exercise-demo--child .demo-stage,
-.exercise-demo--twist .demo-stage {
-  transform: rotate(90deg) translateX(3px);
+.exercise-demo--plank .body-line--torso,
+.exercise-demo--deadbug .body-line--torso,
+.exercise-demo--legs .body-line--torso,
+.exercise-demo--bridge .body-line--torso,
+.exercise-demo--child .body-line--torso,
+.exercise-demo--twist .body-line--torso {
+  --x: 36px;
+  --y: 61px;
+  --h: 43px;
+  --rot: 82deg;
 }
 
-.exercise-demo--warrior .demo-leg-left {
-  transform: rotate(68deg);
+.exercise-demo--plank .joint--head,
+.exercise-demo--deadbug .joint--head,
+.exercise-demo--legs .joint--head,
+.exercise-demo--bridge .joint--head,
+.exercise-demo--child .joint--head,
+.exercise-demo--twist .joint--head {
+  --x: 22px;
+  --y: 54px;
 }
 
-.exercise-demo--warrior .demo-leg-right {
-  transform: rotate(-68deg);
+.exercise-demo--lunge .body-line--left-thigh {
+  --rot: 76deg;
 }
 
-.exercise-demo--birddog .demo-arm-left,
-.exercise-demo--birddog .demo-leg-right {
-  animation: birdDogMotion 1.5s ease-in-out infinite;
+.exercise-demo--lunge .body-line--right-thigh {
+  --rot: -8deg;
+}
+
+.exercise-demo--row .body-line--torso {
+  --rot: 16deg;
+}
+
+.exercise-demo--row .body-line--left-arm,
+.exercise-demo--row .body-line--right-arm {
+  animation: rowPull 1.4s ease-in-out infinite;
+}
+
+.exercise-demo--press .body-line--left-arm,
+.exercise-demo--press .body-line--right-arm {
+  --rot: 178deg;
+  --y: 24px;
+  animation: pressReach 1.4s ease-in-out infinite;
+}
+
+.exercise-demo--warrior .body-line--left-thigh {
+  --rot: 88deg;
+}
+
+.exercise-demo--warrior .body-line--right-thigh {
+  --rot: -78deg;
+}
+
+.exercise-demo--birddog .body-line--left-arm {
+  --rot: 112deg;
+}
+
+.exercise-demo--birddog .body-line--right-shin {
+  --rot: 112deg;
 }
 
 .exercise-demo--stepup .demo-prop {
-  height: 8px;
-  top: 47px;
+  top: 76px;
+  height: 13px;
 }
 
-.exercise-demo--stepup .demo-leg-left {
-  animation: stepMotion 1.3s ease-in-out infinite;
+.exercise-demo--stepup .body-line--left-thigh {
+  --rot: 82deg;
+  animation: stepLift 1.4s ease-in-out infinite;
 }
 
 .exercise-demo--carry .demo-prop {
-  left: 8px;
-  top: 26px;
-  width: 40px;
-  height: 5px;
+  left: 16px;
+  top: 49px;
+  width: 80px;
 }
 
 .exercise-demo--carry .demo-stage {
-  animation: carryMotion 1.4s ease-in-out infinite;
+  animation: carryWalk 1.4s ease-in-out infinite;
 }
 
-.exercise-demo--catcow .demo-body {
-  animation: catCowMotion 1.4s ease-in-out infinite;
+.exercise-demo--catcow .body-line--torso {
+  --rot: 90deg;
+  animation: catCowArch 1.5s ease-in-out infinite;
 }
 
-@keyframes squatMotion {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(8px) rotate(0); }
+@keyframes demoBounce {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 8px; }
 }
 
-@keyframes hingeMotion {
-  0%, 100% { transform: rotate(0); }
-  50% { transform: rotate(46deg); }
+@keyframes rowPull {
+  0%, 100% { transform: rotate(62deg); }
+  50% { transform: rotate(18deg); }
 }
 
-@keyframes lungeMotion {
-  0%, 100% { transform: rotate(20deg); }
-  50% { transform: rotate(70deg) translateY(5px); }
+@keyframes pressReach {
+  0%, 100% { transform: rotate(42deg); top: 42px; }
+  50% { transform: rotate(178deg); top: 24px; }
 }
 
-@keyframes rowMotion {
-  0%, 100% { transform: rotate(60deg); }
-  50% { transform: rotate(8deg); }
+@keyframes stepLift {
+  0%, 100% { transform: rotate(30deg); }
+  50% { transform: rotate(82deg) translateY(-7px); }
 }
 
-@keyframes pressMotion {
-  0%, 100% { transform: rotate(42deg); top: 19px; }
-  50% { transform: rotate(178deg); top: 8px; }
-}
-
-@keyframes birdDogMotion {
-  0%, 100% { transform: rotate(42deg); }
-  50% { transform: rotate(105deg); }
-}
-
-@keyframes stepMotion {
-  0%, 100% { transform: rotate(20deg); }
-  50% { transform: rotate(-65deg) translateY(-5px); }
-}
-
-@keyframes carryMotion {
+@keyframes carryWalk {
   0%, 100% { transform: translateX(-2px); }
   50% { transform: translateX(3px); }
 }
 
-@keyframes catCowMotion {
-  0%, 100% { transform: scaleY(0.75) rotate(70deg); }
-  50% { transform: scaleY(1.1) rotate(95deg); }
+@keyframes catCowArch {
+  0%, 100% { transform: rotate(78deg) scaleY(0.9); }
+  50% { transform: rotate(98deg) scaleY(1.1); }
 }
 
 .tag {
