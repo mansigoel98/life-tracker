@@ -1,4 +1,5 @@
 const SHEET_NAME = 'Daily_Log';
+const SPREADSHEET_ID = '1RdHmwOdwta51CUaAnnEO1uhnz-eV6nbJocnv2xaKG88';
 const HEADERS = [
   'id',
   'timestamp',
@@ -126,7 +127,7 @@ function listEntries_() {
 }
 
 function ensureSheet_() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
