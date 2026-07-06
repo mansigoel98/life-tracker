@@ -184,16 +184,12 @@
                   <span>Lemon water</span>
                 </label>
                 <label class="toggle-card">
-                  <input id="yoga" name="yoga" type="checkbox" />
-                  <span>Yoga</span>
-                </label>
-                <label class="toggle-card">
-                  <input id="gym" name="gym" type="checkbox" />
-                  <span>Gym</span>
+                  <input id="gymYoga" name="gymYoga" type="checkbox" />
+                  <span>Gym/Yoga</span>
                 </label>
                 <label class="toggle-card">
                   <input id="skincareAm" name="skincareAm" type="checkbox" />
-                  <span>AM skincare</span>
+                  <span>AM skincare after bath</span>
                 </label>
                 <label class="toggle-card">
                   <input id="skincarePm" name="skincarePm" type="checkbox" />
@@ -202,6 +198,10 @@
                 <label class="toggle-card">
                   <input id="plannedSnacks" name="plannedSnacks" type="checkbox" />
                   <span>Planned snacks</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="greenTea" name="greenTea" type="checkbox" />
+                  <span>Green tea 1-2 cups</span>
                 </label>
               </div>
 
@@ -244,17 +244,20 @@
                   <h2>Vegetarian protein plan</h2>
                 </div>
               </div>
+              <p class="meal-note">
+                Calories are approximate. Use the portion line as the real guide.
+              </p>
               <div class="meal-grid">
                 <label>
                   Breakfast
                   <textarea id="breakfast" name="breakfast" rows="3"></textarea>
                 </label>
                 <label>
-                  Lunch
+                  Lunch - 2:00 pm
                   <textarea id="lunch" name="lunch" rows="3"></textarea>
                 </label>
                 <label>
-                  Snack
+                  Snack - 12:30 pm and 4:30 pm
                   <textarea id="snack" name="snack" rows="3"></textarea>
                 </label>
                 <label>
@@ -427,10 +430,23 @@
           <section class="form-section">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Meal rotation</p>
-                <h2>Different food every day</h2>
+                <p class="eyebrow">Weekend rhythm</p>
+                <h2>Saturday and Sunday routine</h2>
               </div>
             </div>
+            <div class="weekend-grid" id="weekendRoutine"></div>
+          </section>
+          <section class="form-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Meal rotation</p>
+                <h2>Visual plates, portions, calories</h2>
+              </div>
+            </div>
+            <p class="meal-note">
+              Each card shows one plate idea. Choose one option per meal slot and adjust
+              portions gently on migraine or high-hunger days.
+            </p>
             <div class="meal-plan" id="mealPlan"></div>
           </section>
           <section class="form-section">

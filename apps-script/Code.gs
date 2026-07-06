@@ -31,6 +31,8 @@ const HEADERS = [
   'gratitude',
   'notes',
   'score',
+  'gymYoga',
+  'greenTea',
 ];
 
 function doPost(e) {
@@ -126,16 +128,11 @@ function ensureSheet_() {
   }
 
   const headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
-  const existingHeaders = headerRange.getValues()[0];
-  const needsHeader = existingHeaders.join('') === '' || existingHeaders[0] !== 'id';
-
-  if (needsHeader) {
-    headerRange.setValues([HEADERS]);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#0f5f5c');
-    headerRange.setFontColor('#ffffff');
-    sheet.setFrozenRows(1);
-  }
+  headerRange.setValues([HEADERS]);
+  headerRange.setFontWeight('bold');
+  headerRange.setBackground('#0f5f5c');
+  headerRange.setFontColor('#ffffff');
+  sheet.setFrozenRows(1);
 
   return sheet;
 }

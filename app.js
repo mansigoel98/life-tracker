@@ -26,59 +26,310 @@ const dayNames = [
   "Saturday",
 ];
 
+const mealCatalog = {
+  "paneer-besan-chilla": {
+    meal: "Breakfast",
+    name: "Paneer besan chilla plate",
+    portion: "2 medium chillas + 50g paneer + 1/2 cup mint curd",
+    calories: 430,
+    protein: 30,
+    visual: "chilla",
+  },
+  "greek-yogurt-bowl": {
+    meal: "Breakfast",
+    name: "Greek yogurt fruit bowl",
+    portion: "250g thick curd + 1 small banana + 1 tbsp chia + 8-10 almonds",
+    calories: 420,
+    protein: 24,
+    visual: "bowl",
+  },
+  "moong-cheela-curd": {
+    meal: "Breakfast",
+    name: "Moong dal cheela with curd",
+    portion: "2 cheelas + 3/4 cup curd + chutney + cucumber",
+    calories: 360,
+    protein: 22,
+    visual: "chilla",
+  },
+  "protein-oats-bowl": {
+    meal: "Breakfast",
+    name: "Protein oats bowl",
+    portion: "40g oats + 200ml milk + chia + nuts + berries/banana",
+    calories: 430,
+    protein: 22,
+    visual: "bowl",
+  },
+  "tofu-paneer-sandwich": {
+    meal: "Breakfast",
+    name: "Tofu/paneer breakfast sandwich",
+    portion: "2 bread slices + 80g tofu/paneer + veggies + chutney",
+    calories: 400,
+    protein: 25,
+    visual: "sandwich",
+  },
+  "idli-sambar-curd": {
+    meal: "Breakfast",
+    name: "Idli sambar protein plate",
+    portion: "3 idlis + 1.5 cups sambar + 1/2 cup curd",
+    calories: 430,
+    protein: 20,
+    visual: "idli",
+  },
+  "paneer-paratha-curd": {
+    meal: "Breakfast",
+    name: "Paneer paratha and curd",
+    portion: "1 medium paneer paratha + 3/4 cup curd + pickle/salad",
+    calories: 500,
+    protein: 27,
+    visual: "roti",
+  },
+  "dosa-sambar-peanut": {
+    meal: "Breakfast",
+    name: "Dosa, sambar and peanut chutney",
+    portion: "1 dosa + 1 cup sambar + 1 tbsp peanut chutney",
+    calories: 450,
+    protein: 17,
+    visual: "dosa",
+  },
+  "rajma-protein-roti-curd": {
+    meal: "Lunch",
+    name: "Rajma with protein roti",
+    portion: "1 cup rajma + 2 protein rotis + 1/2 cup curd + salad",
+    calories: 590,
+    protein: 29,
+    visual: "roti",
+  },
+  "dal-palak-protein-roti": {
+    meal: "Lunch",
+    name: "Dal palak with protein roti",
+    portion: "1.25 cups dal palak + 2 protein rotis + 1 cup salad",
+    calories: 520,
+    protein: 25,
+    visual: "roti",
+  },
+  "soya-masala-raita": {
+    meal: "Lunch",
+    name: "Soya chunks masala with raita",
+    portion: "40g dry soya chunks + 2 protein rotis + 1 cup raita + salad",
+    calories: 590,
+    protein: 32,
+    visual: "roti",
+  },
+  "paneer-quinoa-bowl": {
+    meal: "Lunch",
+    name: "Paneer tikka protein roti bowl",
+    portion: "80g paneer + 2 protein rotis + 1 cup veggies + chutney",
+    calories: 610,
+    protein: 31,
+    visual: "roti",
+  },
+  "chole-protein-roti": {
+    meal: "Lunch",
+    name: "Chole with protein roti",
+    portion: "1 cup chole + 2 protein rotis + onion cucumber salad",
+    calories: 560,
+    protein: 26,
+    visual: "roti",
+  },
+  "paneer-bhurji-lunch": {
+    meal: "Lunch",
+    name: "Paneer bhurji lunch plate",
+    portion: "90g paneer bhurji + 2 protein rotis + salad + chutney",
+    calories: 610,
+    protein: 34,
+    visual: "roti",
+  },
+  "masoor-roti-sabzi": {
+    meal: "Lunch",
+    name: "Masoor dal protein roti plate",
+    portion: "1.25 cups masoor dal + 2 protein rotis + 1 cup sabzi",
+    calories: 520,
+    protein: 27,
+    visual: "roti",
+  },
+  "sprouts-chaas": {
+    meal: "Snack",
+    name: "Sprouts chaat and chaas",
+    portion: "1 cup sprouts chaat + 250ml chaas",
+    calories: 220,
+    protein: 14,
+    visual: "snackbox",
+  },
+  "makhana-chana": {
+    meal: "Snack",
+    name: "Makhana chana crunch box",
+    portion: "2 cups roasted makhana + 30g roasted chana",
+    calories: 260,
+    protein: 13,
+    visual: "snackbox",
+  },
+  "hummus-veg-paneer": {
+    meal: "Snack",
+    name: "Hummus veg sticks and paneer bites",
+    portion: "1/4 cup hummus + veg sticks + 60g paneer tikka",
+    calories: 320,
+    protein: 19,
+    visual: "snackbox",
+  },
+  "fruit-peanut-curd": {
+    meal: "Snack",
+    name: "Fruit peanut curd bowl",
+    portion: "1 fruit + 1 tbsp peanut butter + 1/2 cup curd",
+    calories: 300,
+    protein: 13,
+    visual: "bowl",
+  },
+  "protein-lassi-dates": {
+    meal: "Snack",
+    name: "Protein lassi with dates",
+    portion: "250g curd blended with water + 2 dates + cinnamon",
+    calories: 280,
+    protein: 16,
+    visual: "glass",
+  },
+  "office-snackbox": {
+    meal: "Snack",
+    name: "Office snack defense box",
+    portion: "35g roasted chana + 1 cup makhana + buttermilk",
+    calories: 300,
+    protein: 16,
+    visual: "snackbox",
+  },
+  "tofu-bhurji-protein-roti": {
+    meal: "Dinner",
+    name: "Tofu bhurji with protein roti",
+    portion: "120g tofu bhurji + 1-2 protein rotis + sauteed beans",
+    calories: 480,
+    protein: 31,
+    visual: "roti",
+  },
+  "palak-paneer-protein-roti": {
+    meal: "Dinner",
+    name: "Palak paneer protein roti plate",
+    portion: "80g paneer palak + 1-2 protein rotis + salad",
+    calories: 520,
+    protein: 30,
+    visual: "roti",
+  },
+  "moong-cheela-dinner": {
+    meal: "Dinner",
+    name: "Moong dal cheela dinner",
+    portion: "2 cheelas + 1 cup curd + salad",
+    calories: 410,
+    protein: 28,
+    visual: "chilla",
+  },
+  "dal-soup-stir-fry": {
+    meal: "Dinner",
+    name: "Dal soup and veggie stir fry",
+    portion: "1.5 cups dal soup + 1.5 cups stir fry + 1 protein roti",
+    calories: 430,
+    protein: 23,
+    visual: "soup",
+  },
+  "tofu-clear-soup": {
+    meal: "Dinner",
+    name: "Tofu clear soup bowl",
+    portion: "2 cups clear veg soup + 120g tofu + 1 protein roti if hungry",
+    calories: 360,
+    protein: 28,
+    visual: "soup",
+  },
+  "paneer-veg-soup": {
+    meal: "Dinner",
+    name: "Paneer vegetable soup",
+    portion: "2 cups veg soup + 70g paneer cubes + salad or 1 protein roti",
+    calories: 410,
+    protein: 26,
+    visual: "soup",
+  },
+  "moong-spinach-soup": {
+    meal: "Dinner",
+    name: "Moong spinach soup",
+    portion: "1.75 cups moong spinach soup + 1 protein roti + cucumber salad",
+    calories: 390,
+    protein: 24,
+    visual: "soup",
+  },
+  "dalia-curd": {
+    meal: "Dinner",
+    name: "Light dalia curd bowl",
+    portion: "1.5 cups vegetable dalia + 3/4 cup curd + salad",
+    calories: 450,
+    protein: 21,
+    visual: "bowl",
+  },
+  "tofu-pasta": {
+    meal: "Dinner",
+    name: "Tofu veggie pasta",
+    portion: "1 cup cooked whole-wheat pasta + 100g tofu + 1 cup veggies",
+    calories: 560,
+    protein: 30,
+    visual: "pasta",
+  },
+  "paneer-tikka-bowl": {
+    meal: "Dinner",
+    name: "Paneer tikka salad bowl",
+    portion: "90g paneer tikka + salad + 1 protein roti or small millet bowl",
+    calories: 520,
+    protein: 32,
+    visual: "bowl",
+  },
+};
+
 const mealPlan = {
   Monday: {
-    breakfast: "Besan chilla with paneer stuffing + mint curd",
-    lunch: "Rajma, rice, cucumber salad, curd",
-    snack: "Apple + roasted chana, buttermilk + makhana",
-    dinner: "Tofu bhurji + 2 phulkas + sauteed beans",
+    breakfast: ["paneer-besan-chilla", "greek-yogurt-bowl"],
+    lunch: ["rajma-protein-roti-curd", "dal-palak-protein-roti"],
+    snack: ["sprouts-chaas", "makhana-chana"],
+    dinner: ["tofu-bhurji-protein-roti", "tofu-clear-soup"],
   },
   Tuesday: {
-    breakfast: "Greek yogurt bowl with banana, chia, nuts",
-    lunch: "Dal tadka, 2 phulkas, bhindi, salad",
-    snack: "Sprouts chaat, fruit + peanuts",
-    dinner: "Vegetable khichdi + curd + salad",
+    breakfast: ["greek-yogurt-bowl", "moong-cheela-curd"],
+    lunch: ["dal-palak-protein-roti", "soya-masala-raita"],
+    snack: ["sprouts-chaas", "fruit-peanut-curd"],
+    dinner: ["moong-spinach-soup", "palak-paneer-protein-roti"],
   },
   Wednesday: {
-    breakfast: "Paneer or tofu sandwich + cucumber",
-    lunch: "Chole, 2 phulkas, onion cucumber salad",
-    snack: "Coconut water + peanuts, protein lassi",
-    dinner: "Moong dal cheela + curd",
+    breakfast: ["tofu-paneer-sandwich", "protein-oats-bowl"],
+    lunch: ["chole-protein-roti", "paneer-quinoa-bowl"],
+    snack: ["protein-lassi-dates", "makhana-chana"],
+    dinner: ["moong-cheela-dinner", "dal-soup-stir-fry"],
   },
   Thursday: {
-    breakfast: "Oats in milk + chia + nuts + fruit",
-    lunch: "Soya chunks pulao + raita + salad",
-    snack: "Makhana with chai, hummus with cucumber sticks",
-    dinner: "Palak paneer + 2 phulkas",
+    breakfast: ["protein-oats-bowl", "paneer-besan-chilla"],
+    lunch: ["soya-masala-raita", "masoor-roti-sabzi"],
+    snack: ["hummus-veg-paneer", "office-snackbox"],
+    dinner: ["paneer-veg-soup", "tofu-bhurji-protein-roti"],
   },
   Friday: {
-    breakfast: "Idli + sambar + curd",
-    lunch: "Paneer or tofu bowl with rice, sabzi, salad",
-    snack: "Guava + roasted chana, homemade trail mix",
-    dinner: "Dal soup + veggie stir fry + 1-2 phulkas",
+    breakfast: ["idli-sambar-curd", "greek-yogurt-bowl"],
+    lunch: ["paneer-quinoa-bowl", "rajma-protein-roti-curd"],
+    snack: ["makhana-chana", "fruit-peanut-curd"],
+    dinner: ["dal-soup-stir-fry", "paneer-tikka-bowl"],
   },
   Saturday: {
-    breakfast: "Paneer paratha + curd",
-    lunch: "Masoor dal, jeera rice, salad, sabzi",
-    snack: "Fruit smoothie, sprouts bhel",
-    dinner: "High-protein pasta with veggies + tofu or paneer",
+    breakfast: ["paneer-paratha-curd", "moong-cheela-curd"],
+    lunch: ["masoor-roti-sabzi", "chole-protein-roti"],
+    snack: ["sprouts-chaas", "protein-lassi-dates"],
+    dinner: ["tofu-pasta", "paneer-veg-soup"],
   },
   Sunday: {
-    breakfast: "Dosa + sambar + peanut chutney",
-    lunch: "Kadhi + rice + salad + veg",
-    snack: "Buttermilk + makhana, paneer or tofu tikka",
-    dinner: "Light dalia or upma with sprouts or dal",
+    breakfast: ["dosa-sambar-peanut", "protein-oats-bowl"],
+    lunch: ["paneer-bhurji-lunch", "soya-masala-raita"],
+    snack: ["hummus-veg-paneer", "office-snackbox"],
+    dinner: ["moong-spinach-soup", "moong-cheela-dinner"],
   },
 };
 
 const routine = [
-  ["7:15 am", "Wake up, water, wash face, no scrolling"],
-  ["7:20 am", "AM skincare: cleanser, Vitamin C, moisturizer, sunscreen"],
+  ["7:15 am", "Wake up, lemon water, wash face, no scrolling"],
   ["7:35 am", "Gym, yoga, or walk based on the weekly movement plan"],
+  ["8:05 am", "Bath, then AM skincare: Vitamin C, moisturizer, sunscreen"],
   ["8:15 am", "High-protein breakfast and pack snack box"],
   ["9:30 am", "Office and commute block begins"],
-  ["11:15 am", "Snack 1 before hunger becomes a migraine trigger"],
-  ["1:00 pm", "Lunch with one protein anchor and normal carbs"],
+  ["12:30 pm", "Snack 1 before hunger becomes a migraine trigger"],
+  ["2:00 pm", "Lunch with one protein anchor, protein roti, salad"],
   ["4:30 pm", "Snack 2 with chai or coffee, avoid random namkeen loops"],
   ["7:30 pm", "Reach home, change, wash face, 10 minutes quiet"],
   ["8:15 pm", "Light protein-focused dinner"],
@@ -89,15 +340,43 @@ const routine = [
   ["11:30 pm", "Sleep window starts"],
 ];
 
+const weekendRoutine = [
+  {
+    day: "Saturday",
+    focus: "Skill, driving, fun",
+    blocks: [
+      "Wake naturally by 8:30 am, lemon water, bath, AM skincare",
+      "45-60 min walk, gym, dance, or driving class",
+      "2-hour deep learning block: Java/Kubernetes/system design",
+      "Meal prep shopping and one fun plan with Vibhor/friends",
+      "Night skincare and sleep before the week gets noisy",
+    ],
+  },
+  {
+    day: "Sunday",
+    focus: "Reset, prep, review",
+    blocks: [
+      "Restorative yoga or relaxed walk",
+      "90-minute food prep: sprouts, makhana, chana, paneer/tofu, salad",
+      "Finance check, weekly planning, and wardrobe/work bag reset",
+      "20-minute English speaking or reading session",
+      "Low-stimulation evening so Monday does not feel sudden",
+    ],
+  },
+];
+
 const weekendPrep = [
-  ["Boil rajma/chole", "2-3 portions for Monday and Wednesday lunch"],
-  ["Make sprouts", "2-3 snack portions with onion, tomato, lemon"],
-  ["Roast makhana", "4 office snack portions"],
-  ["Pack roasted chana", "4 grab-and-go snack portions"],
-  ["Chop salad basics", "Cucumber, carrot, lemon, onion for 3 days"],
-  ["Make green chutney", "For chilla, sandwich, and snack bowls"],
-  ["Marinate tofu/paneer", "2 portions for fast dinners"],
-  ["Boil dal base", "Use for khichdi, dal soup, or cheela batter"],
+  ["Protein roti atta", "Mix atta + sattu/soy flour/besan in a 3:1 ratio. Keep dry mix ready for 3 days."],
+  ["Rajma/chole base", "Soak overnight, pressure cook, portion 2 boxes. Eat with protein roti, not rice."],
+  ["Moong chilla batter", "Soak yellow/green moong dal 4-6 hrs, grind with ginger, chilli, jeera. Store 2 days."],
+  ["Besan chilla mix", "Pre-mix besan, ajwain, haldi, salt. Add curd/water and paneer only while cooking."],
+  ["Dosa batter 1", "Classic: 3 parts idli rice + 1 part urad dal + methi. Ferment overnight."],
+  ["Dosa batter 2", "High-protein: 2 parts moong dal + 1 part urad dal + little oats/rava. Ferment or use instant."],
+  ["Adai-style batter", "Soak toor + chana + moong + urad dal with red chilli. Grind coarse for protein dosa."],
+  ["Office snack boxes", "Pack roasted chana, makhana, peanuts, and sprouts so biscuits are not the default."],
+  ["Paneer/tofu prep", "Marinate 2 portions with curd, chilli, haldi, kasuri methi. Use for dinner/lunch bowls."],
+  ["Soup base", "Pressure cook moong/masoor dal with spinach or lauki. Blend or mash, then add tofu/paneer fresh at dinner."],
+  ["Salad and chutney", "Chop cucumber/carrot/onion for 3 days. Make mint-coriander chutney."],
 ];
 
 const workouts = [
@@ -213,6 +492,73 @@ const confidenceDrills = [
   ["LinkedIn draft", "Write one short backend learning post. Publish later if ready."],
 ];
 
+const visualTemplates = {
+  chilla: [
+    ["--x:14%;--y:36%;--w:58%;--h:20%;--c:#d49a45;--r:999px;--rot:-8deg"],
+    ["--x:24%;--y:50%;--w:52%;--h:18%;--c:#efbd6a;--r:999px;--rot:7deg"],
+    ["--x:69%;--y:24%;--w:19%;--h:19%;--c:#eaf5ef;--r:50%;--rot:0deg"],
+    ["--x:73%;--y:28%;--w:10%;--h:10%;--c:#69a976;--r:50%;--rot:0deg"],
+  ],
+  bowl: [
+    ["--x:20%;--y:20%;--w:58%;--h:58%;--c:#f4efe6;--r:50%;--rot:0deg"],
+    ["--x:29%;--y:29%;--w:40%;--h:40%;--c:#c7634d;--r:50%;--rot:0deg"],
+    ["--x:36%;--y:25%;--w:14%;--h:14%;--c:#f0c85d;--r:50%;--rot:0deg"],
+    ["--x:52%;--y:48%;--w:15%;--h:15%;--c:#74a56d;--r:50%;--rot:0deg"],
+  ],
+  roti: [
+    ["--x:15%;--y:28%;--w:34%;--h:34%;--c:#d8a75a;--r:50%;--rot:0deg"],
+    ["--x:25%;--y:40%;--w:34%;--h:34%;--c:#efc56c;--r:50%;--rot:0deg"],
+    ["--x:62%;--y:24%;--w:24%;--h:24%;--c:#428f64;--r:50%;--rot:0deg"],
+    ["--x:64%;--y:54%;--w:22%;--h:18%;--c:#f2f1df;--r:45%;--rot:0deg"],
+  ],
+  masala: [
+    ["--x:19%;--y:20%;--w:60%;--h:60%;--c:#f7edc8;--r:50%;--rot:0deg"],
+    ["--x:32%;--y:31%;--w:13%;--h:13%;--c:#e28a46;--r:50%;--rot:0deg"],
+    ["--x:48%;--y:37%;--w:13%;--h:13%;--c:#6c9d68;--r:50%;--rot:0deg"],
+    ["--x:65%;--y:18%;--w:17%;--h:17%;--c:#f7f6ef;--r:50%;--rot:0deg"],
+  ],
+  snackbox: [
+    ["--x:13%;--y:21%;--w:30%;--h:28%;--c:#e9bb65;--r:10px;--rot:0deg"],
+    ["--x:49%;--y:21%;--w:30%;--h:28%;--c:#6da66d;--r:10px;--rot:0deg"],
+    ["--x:13%;--y:55%;--w:30%;--h:24%;--c:#f5efe6;--r:10px;--rot:0deg"],
+    ["--x:49%;--y:55%;--w:30%;--h:24%;--c:#d36d55;--r:10px;--rot:0deg"],
+  ],
+  sandwich: [
+    ["--x:18%;--y:32%;--w:60%;--h:26%;--c:#d8a75a;--r:8px;--rot:-8deg"],
+    ["--x:23%;--y:38%;--w:52%;--h:22%;--c:#f4efe6;--r:8px;--rot:-8deg"],
+    ["--x:29%;--y:42%;--w:40%;--h:14%;--c:#6aa56a;--r:8px;--rot:-8deg"],
+    ["--x:32%;--y:57%;--w:46%;--h:12%;--c:#e2b25d;--r:8px;--rot:7deg"],
+  ],
+  idli: [
+    ["--x:18%;--y:26%;--w:24%;--h:24%;--c:#f8f6ee;--r:50%;--rot:0deg"],
+    ["--x:34%;--y:50%;--w:24%;--h:24%;--c:#f8f6ee;--r:50%;--rot:0deg"],
+    ["--x:55%;--y:28%;--w:27%;--h:27%;--c:#d7794c;--r:50%;--rot:0deg"],
+    ["--x:63%;--y:58%;--w:17%;--h:17%;--c:#6fa86d;--r:50%;--rot:0deg"],
+  ],
+  dosa: [
+    ["--x:15%;--y:42%;--w:67%;--h:20%;--c:#e2a85c;--r:999px;--rot:-5deg"],
+    ["--x:60%;--y:24%;--w:20%;--h:20%;--c:#d66b4f;--r:50%;--rot:0deg"],
+    ["--x:65%;--y:53%;--w:17%;--h:17%;--c:#f5f2e7;--r:50%;--rot:0deg"],
+  ],
+  glass: [
+    ["--x:35%;--y:20%;--w:26%;--h:58%;--c:#f5f2dd;--r:12px;--rot:0deg"],
+    ["--x:39%;--y:25%;--w:18%;--h:44%;--c:#f0cd75;--r:10px;--rot:0deg"],
+    ["--x:58%;--y:48%;--w:17%;--h:17%;--c:#c86b52;--r:50%;--rot:0deg"],
+  ],
+  soup: [
+    ["--x:18%;--y:27%;--w:42%;--h:42%;--c:#d66b4f;--r:50%;--rot:0deg"],
+    ["--x:26%;--y:35%;--w:26%;--h:26%;--c:#f0c25e;--r:50%;--rot:0deg"],
+    ["--x:62%;--y:30%;--w:24%;--h:22%;--c:#6ea46b;--r:9px;--rot:8deg"],
+    ["--x:63%;--y:58%;--w:24%;--h:16%;--c:#dfa653;--r:999px;--rot:-8deg"],
+  ],
+  pasta: [
+    ["--x:19%;--y:20%;--w:60%;--h:60%;--c:#f2d47b;--r:50%;--rot:0deg"],
+    ["--x:28%;--y:32%;--w:16%;--h:12%;--c:#d76950;--r:999px;--rot:20deg"],
+    ["--x:47%;--y:46%;--w:16%;--h:12%;--c:#75a967;--r:999px;--rot:-15deg"],
+    ["--x:58%;--y:30%;--w:15%;--h:15%;--c:#f8f6ef;--r:50%;--rot:0deg"],
+  ],
+};
+
 let entries = [];
 let settings = structuredClone(DEFAULT_SETTINGS);
 
@@ -248,6 +594,45 @@ function safeParse(value, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function getMealOption(id) {
+  return mealCatalog[id] || mealCatalog["paneer-besan-chilla"];
+}
+
+function primaryMeal(day, mealType) {
+  return getMealOption(mealPlan[day][mealType][0]);
+}
+
+function formatMealForTextarea(option) {
+  return `${option.name} (~${option.calories} kcal, ${option.protein}g protein)\nPortion: ${option.portion}`;
+}
+
+function renderMealVisual(option) {
+  const shapes = visualTemplates[option.visual] || visualTemplates.bowl;
+  return `
+    <div class="meal-visual meal-visual--${option.visual}" role="img" aria-label="${option.name} plate preview">
+      <span class="plate-base"></span>
+      ${shapes.map(([style]) => `<span class="food-shape" style="${style}"></span>`).join("")}
+    </div>
+  `;
+}
+
+function renderMealOptionCard(id) {
+  const option = getMealOption(id);
+  return `
+    <article class="meal-option-card">
+      ${renderMealVisual(option)}
+      <div class="meal-option-copy">
+        <div class="meal-stat-row">
+          <span>~${option.calories} kcal</span>
+          <span>${option.protein}g protein</span>
+        </div>
+        <h4>${option.name}</h4>
+        <p>${option.portion}</p>
+      </div>
+    </article>
+  `;
 }
 
 function bindEvents() {
@@ -299,17 +684,42 @@ function hydrateStaticContent() {
     )
     .join("");
 
+  document.getElementById("weekendRoutine").innerHTML = weekendRoutine
+    .map(
+      (item) => `
+        <article class="weekend-card">
+          <div class="weekend-card-top">
+            <h3>${item.day}</h3>
+            <span>${item.focus}</span>
+          </div>
+          <ul>
+            ${item.blocks.map((block) => `<li>${block}</li>`).join("")}
+          </ul>
+        </article>
+      `,
+    )
+    .join("");
+
   document.getElementById("mealPlan").innerHTML = Object.entries(mealPlan)
     .map(
       ([day, meals]) => `
-        <article class="meal-day">
-          <h3>${day}</h3>
-          <ul>
-            <li><strong>Breakfast:</strong> ${meals.breakfast}</li>
-            <li><strong>Lunch:</strong> ${meals.lunch}</li>
-            <li><strong>Snack:</strong> ${meals.snack}</li>
-            <li><strong>Dinner:</strong> ${meals.dinner}</li>
-          </ul>
+        <article class="meal-day rich-meal-day">
+          <div class="meal-day-header">
+            <h3>${day}</h3>
+            <span>Pick one per slot</span>
+          </div>
+          ${["breakfast", "lunch", "snack", "dinner"]
+            .map(
+              (mealType) => `
+                <section class="meal-slot">
+                  <div class="meal-slot-title">${mealType}</div>
+                  <div class="meal-option-list">
+                    ${meals[mealType].map((id) => renderMealOptionCard(id)).join("")}
+                  </div>
+                </section>
+              `,
+            )
+            .join("")}
         </article>
       `,
     )
@@ -377,14 +787,17 @@ function setTodayDefaults() {
 function prefillMeals() {
   const date = document.getElementById("entryDate").value || toIsoDate(new Date());
   const day = dayNames[new Date(`${date}T00:00:00`).getDay()];
-  const meals = mealPlan[day];
-  document.getElementById("breakfast").value = meals.breakfast;
-  document.getElementById("lunch").value = meals.lunch;
-  document.getElementById("snack").value = meals.snack;
-  document.getElementById("dinner").value = meals.dinner;
+  const breakfast = primaryMeal(day, "breakfast");
+  const lunch = primaryMeal(day, "lunch");
+  const snack = primaryMeal(day, "snack");
+  const dinner = primaryMeal(day, "dinner");
+  document.getElementById("breakfast").value = formatMealForTextarea(breakfast);
+  document.getElementById("lunch").value = formatMealForTextarea(lunch);
+  document.getElementById("snack").value = formatMealForTextarea(snack);
+  document.getElementById("dinner").value = formatMealForTextarea(dinner);
   document.getElementById("todayHeadline").textContent = `${day}'s plan is ready.`;
   document.getElementById("todaySubline").textContent =
-    `${meals.breakfast} | ${learningByDay[day]}`;
+    `${breakfast.name} | ${learningByDay[day]}`;
 }
 
 function loadEntryForDate(date) {
@@ -401,6 +814,10 @@ function loadEntryForDate(date) {
       input.value = value ?? "";
     }
   });
+  const movement = document.getElementById("gymYoga");
+  if (movement) {
+    movement.checked = Boolean(existing.gymYoga || existing.yoga || existing.gym);
+  }
 }
 
 function saveEntry(event) {
@@ -409,11 +826,11 @@ function saveEntry(event) {
   const data = Object.fromEntries(new FormData(form).entries());
   const checkboxIds = [
     "lemonWater",
-    "yoga",
-    "gym",
+    "gymYoga",
     "skincareAm",
     "skincarePm",
     "plannedSnacks",
+    "greenTea",
   ];
   checkboxIds.forEach((id) => {
     data[id] = document.getElementById(id).checked;
@@ -434,6 +851,8 @@ function saveEntry(event) {
 }
 
 function normalizeEntry(data) {
+  const gymYoga = Boolean(data.gymYoga || data.yoga || data.gym);
+  const workoutType = data.workoutType || "";
   const entry = {
     id: data.id || `entry-${data.date}`,
     timestamp: new Date().toISOString(),
@@ -447,12 +866,14 @@ function normalizeEntry(data) {
     energy: numberOrBlank(data.energy),
     migraine: numberOrZero(data.migraine),
     lemonWater: Boolean(data.lemonWater),
-    yoga: Boolean(data.yoga),
-    gym: Boolean(data.gym),
+    gymYoga,
+    yoga: gymYoga && /yoga|restorative/i.test(workoutType),
+    gym: gymYoga && /gym/i.test(workoutType),
     skincareAm: Boolean(data.skincareAm),
     skincarePm: Boolean(data.skincarePm),
     plannedSnacks: Boolean(data.plannedSnacks),
-    workoutType: data.workoutType || "",
+    greenTea: Boolean(data.greenTea),
+    workoutType,
     junkCount: numberOrZero(data.junkCount),
     breakfast: data.breakfast || "",
     lunch: data.lunch || "",
@@ -489,10 +910,11 @@ function calculateScore(entry) {
     entry.protein >= goals.protein,
     entry.sleep >= goals.sleep,
     entry.lemonWater,
-    entry.yoga || entry.gym || entry.workoutType === "Walk only",
+    entry.gymYoga || entry.yoga || entry.gym || entry.workoutType === "Walk only",
     entry.skincareAm,
     entry.skincarePm,
     entry.plannedSnacks,
+    entry.greenTea,
     entry.junkCount <= 1,
     entry.learningMinutes >= goals.learning,
     entry.confidenceMinutes >= goals.confidence,
@@ -555,9 +977,9 @@ function renderDashboard() {
     },
     {
       label: "Workout days",
-      value: `${last7.filter((entry) => entry.yoga || entry.gym).length}/7`,
+      value: `${last7.filter((entry) => entry.gymYoga || entry.yoga || entry.gym).length}/7`,
       goal: "5/7",
-      pct: last7.filter((entry) => entry.yoga || entry.gym).length / 5,
+      pct: last7.filter((entry) => entry.gymYoga || entry.yoga || entry.gym).length / 5,
     },
     {
       label: "Skincare pairs",
@@ -576,6 +998,18 @@ function renderDashboard() {
       value: `${last7.filter((entry) => entry.confidenceMinutes >= goals.confidence).length}/7`,
       goal: "5/7",
       pct: last7.filter((entry) => entry.confidenceMinutes >= goals.confidence).length / 5,
+    },
+    {
+      label: "Low migraine days",
+      value: `${last7.filter((entry) => Number(entry.migraine || 0) <= 1).length}/7`,
+      goal: "6/7",
+      pct: last7.filter((entry) => Number(entry.migraine || 0) <= 1).length / 6,
+    },
+    {
+      label: "Green tea days",
+      value: `${last7.filter((entry) => entry.greenTea).length}/7`,
+      goal: "5/7",
+      pct: last7.filter((entry) => entry.greenTea).length / 5,
     },
   ];
 
@@ -706,7 +1140,10 @@ function renderRecentRows(rows) {
             <td>${entry.steps.toLocaleString("en-IN")}</td>
             <td>${entry.water}L</td>
             <td>${entry.protein}g</td>
-            <td>${entry.workoutType || (entry.gym ? "Gym" : entry.yoga ? "Yoga" : "Rest")}</td>
+            <td>${
+              entry.workoutType ||
+              (entry.gymYoga ? "Gym/Yoga" : entry.gym ? "Gym" : entry.yoga ? "Yoga" : "Rest")
+            }</td>
             <td>${entry.migraine}/5</td>
             <td>${entry.learningMinutes} min</td>
           </tr>
@@ -868,9 +1305,17 @@ function normalizeEntryFromSheet(entry) {
     lemonWater: entry.lemonWater === true || entry.lemonWater === "TRUE",
     yoga: entry.yoga === true || entry.yoga === "TRUE",
     gym: entry.gym === true || entry.gym === "TRUE",
+    gymYoga:
+      entry.gymYoga === true ||
+      entry.gymYoga === "TRUE" ||
+      entry.yoga === true ||
+      entry.yoga === "TRUE" ||
+      entry.gym === true ||
+      entry.gym === "TRUE",
     skincareAm: entry.skincareAm === true || entry.skincareAm === "TRUE",
     skincarePm: entry.skincarePm === true || entry.skincarePm === "TRUE",
     plannedSnacks: entry.plannedSnacks === true || entry.plannedSnacks === "TRUE",
+    greenTea: entry.greenTea === true || entry.greenTea === "TRUE",
     junkCount: numberOrZero(entry.junkCount),
     learningMinutes: numberOrZero(entry.learningMinutes),
     confidenceMinutes: numberOrZero(entry.confidenceMinutes),
@@ -911,7 +1356,10 @@ function seedDemoWeek() {
     const date = new Date();
     date.setDate(date.getDate() - i);
     const day = dayNames[date.getDay()];
-    const meals = mealPlan[day];
+    const breakfast = primaryMeal(day, "breakfast");
+    const lunch = primaryMeal(day, "lunch");
+    const snack = primaryMeal(day, "snack");
+    const dinner = primaryMeal(day, "dinner");
     demo.push(
       normalizeEntry({
         date: toIsoDate(date),
@@ -922,17 +1370,23 @@ function seedDemoWeek() {
         energy: 3 + Math.floor(Math.random() * 3),
         migraine: Math.floor(Math.random() * 3),
         lemonWater: Math.random() > 0.35,
-        yoga: day === "Tuesday" || day === "Thursday" || day === "Sunday",
-        gym: day === "Monday" || day === "Wednesday" || day === "Friday",
+        gymYoga:
+          day === "Monday" ||
+          day === "Tuesday" ||
+          day === "Wednesday" ||
+          day === "Thursday" ||
+          day === "Friday" ||
+          day === "Sunday",
+        greenTea: Math.random() > 0.25,
         skincareAm: Math.random() > 0.15,
         skincarePm: Math.random() > 0.2,
         plannedSnacks: Math.random() > 0.25,
         workoutType: workoutByDay[day],
         junkCount: Math.random() > 0.7 ? 2 : 0,
-        breakfast: meals.breakfast,
-        lunch: meals.lunch,
-        snack: meals.snack,
-        dinner: meals.dinner,
+        breakfast: formatMealForTextarea(breakfast),
+        lunch: formatMealForTextarea(lunch),
+        snack: formatMealForTextarea(snack),
+        dinner: formatMealForTextarea(dinner),
         learningMinutes: day === "Sunday" ? 15 : 25,
         learningTopic: learningByDay[day],
         confidenceMinutes: 5 + Math.round(Math.random() * 15),
