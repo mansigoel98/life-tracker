@@ -120,10 +120,24 @@ function listEntries_() {
   return values.slice(1).map((row) => {
     const entry = {};
     headers.forEach((header, index) => {
-      entry[header] = row[index];
+      entry[header] = jsonValueFor_(header, row[index]);
     });
     return entry;
   });
+}
+
+function jsonValueFor_(header, value) {
+  if (value instanceof Date) {
+    if (header === 'date') {
+      return Utilities.formatDate(
+        value,
+        Session.getScriptTimeZone(),
+        'yyyy-MM-dd',
+      );
+    }
+    return value.toISOString();
+  }
+  return value;
 }
 
 function ensureSheet_() {
