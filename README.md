@@ -23,7 +23,7 @@ Open `index.html` directly in your browser.
 For a phone-like preview on your laptop:
 
 ```bash
-cd mansi-life-tracker
+cd life-tracker
 python3 -m http.server 8080
 ```
 
@@ -54,18 +54,17 @@ If you set `TRACKER_TOKEN`, paste the same token in the tracker setup screen.
 
 ## GitHub Pages setup
 
-1. Create a new GitHub repo under `mansigoel98`, for example
-   `mansi-life-tracker`.
+1. Create a new public GitHub repo under `mansigoel98` named `life-tracker`.
 2. Push this folder to the repo.
 3. In GitHub, open `Settings` > `Pages`.
 4. Source: deploy from branch.
 5. Branch: `main`, folder: `/root`.
 6. Open the Pages URL on laptop or phone.
 
-Expected URL if you use the repo name above:
+Expected URL:
 
 ```text
-https://mansigoel98.github.io/mansi-life-tracker/
+https://mansigoel98.github.io/life-tracker/
 ```
 
 Recommended repository visibility:
