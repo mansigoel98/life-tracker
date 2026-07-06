@@ -161,7 +161,7 @@ h3 {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.7fr) minmax(240px, 0.7fr);
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -253,6 +253,18 @@ h3 {
   font-weight: 950;
 }
 
+.calorie-ring {
+  background:
+    radial-gradient(circle closest-side, #ffffff 72%, transparent 73%),
+    conic-gradient(var(--teal) var(--ring), #edf1ed 0deg);
+}
+
+.calorie-ring.over-target {
+  background:
+    radial-gradient(circle closest-side, #ffffff 72%, transparent 73%),
+    conic-gradient(var(--danger) var(--ring), #edf1ed 0deg);
+}
+
 .tracker-form {
   display: grid;
   gap: 16px;
@@ -295,6 +307,15 @@ h3 {
 .field-grid.two-col,
 .meal-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.meal-entry-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #e1e7e3;
+  border-radius: var(--radius);
+  background: #fffdf8;
+  padding: 12px;
 }
 
 label {

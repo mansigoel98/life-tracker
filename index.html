@@ -71,6 +71,19 @@
                 </p>
               </div>
             </section>
+
+            <section class="score-panel calorie-panel">
+              <div class="ring calorie-ring" id="calorieRing" style="--ring: 0deg">
+                <span id="calorieScore">0</span>
+              </div>
+              <div>
+                <p class="eyebrow">Calories today</p>
+                <h2 id="calorieLabel">No meals logged</h2>
+                <p class="muted" id="calorieSubline">
+                  Ring caps at target so it never wraps around.
+                </p>
+              </div>
+            </section>
           </div>
 
           <form class="tracker-form" id="dailyForm">
@@ -248,22 +261,46 @@
                 Calories are approximate. Use the portion line as the real guide.
               </p>
               <div class="meal-grid">
-                <label>
-                  Breakfast
-                  <textarea id="breakfast" name="breakfast" rows="3"></textarea>
-                </label>
-                <label>
-                  Lunch - 2:00 pm
-                  <textarea id="lunch" name="lunch" rows="3"></textarea>
-                </label>
-                <label>
-                  Snack - 12:30 pm and 4:30 pm
-                  <textarea id="snack" name="snack" rows="3"></textarea>
-                </label>
-                <label>
-                  Dinner
-                  <textarea id="dinner" name="dinner" rows="3"></textarea>
-                </label>
+                <div class="meal-entry-card">
+                  <label>
+                    Breakfast
+                    <textarea id="breakfast" name="breakfast" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Breakfast calories
+                    <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" />
+                  </label>
+                </div>
+                <div class="meal-entry-card">
+                  <label>
+                    Lunch - 2:00 pm
+                    <textarea id="lunch" name="lunch" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Lunch calories
+                    <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" />
+                  </label>
+                </div>
+                <div class="meal-entry-card">
+                  <label>
+                    Snack - 12:30 pm and 4:30 pm
+                    <textarea id="snack" name="snack" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Snack calories
+                    <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" />
+                  </label>
+                </div>
+                <div class="meal-entry-card">
+                  <label>
+                    Dinner
+                    <textarea id="dinner" name="dinner" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Dinner calories
+                    <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" />
+                  </label>
+                </div>
               </div>
             </section>
 
@@ -408,6 +445,7 @@
                     <th>Steps</th>
                     <th>Water</th>
                     <th>Protein</th>
+                    <th>Calories</th>
                     <th>Movement</th>
                     <th>Migraine</th>
                     <th>Learning</th>
@@ -518,6 +556,11 @@
                 />
               </label>
             </div>
+            <p class="meal-note">
+              Based on 5'3", 63 kg, age 28: estimated maintenance is roughly
+              1,850-2,000 kcal/day. Start around 1,600 kcal/day for slow, steady
+              fat loss and adjust from your 2-3 week weight trend.
+            </p>
             <div class="form-actions">
               <button class="primary-button" id="saveSettingsButton" type="button">
                 Save connection
@@ -548,6 +591,10 @@
               <label>
                 Protein goal (g)
                 <input id="goalProtein" type="number" min="20" step="5" />
+              </label>
+              <label>
+                Calories target
+                <input id="goalCalories" type="number" min="1200" step="50" />
               </label>
               <label>
                 Learning goal (min)

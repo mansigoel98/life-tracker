@@ -10,6 +10,7 @@ const DEFAULT_SETTINGS = {
     steps: 12000,
     water: 2,
     protein: 70,
+    calories: 1600,
     learning: 25,
     confidence: 5,
     sleep: 7,
@@ -766,6 +767,7 @@ function hydrateStaticContent() {
   document.getElementById("goalSteps").value = settings.goals.steps;
   document.getElementById("goalWater").value = settings.goals.water;
   document.getElementById("goalProtein").value = settings.goals.protein;
+  document.getElementById("goalCalories").value = settings.goals.calories;
   document.getElementById("goalLearning").value = settings.goals.learning;
   document.getElementById("goalConfidence").value = settings.goals.confidence;
   document.getElementById("goalSleep").value = settings.goals.sleep;
@@ -795,6 +797,10 @@ function prefillMeals() {
   document.getElementById("lunch").value = formatMealForTextarea(lunch);
   document.getElementById("snack").value = formatMealForTextarea(snack);
   document.getElementById("dinner").value = formatMealForTextarea(dinner);
+  document.getElementById("breakfastCalories").value = breakfast.calories;
+  document.getElementById("lunchCalories").value = lunch.calories;
+  document.getElementById("snackCalories").value = snack.calories;
+  document.getElementById("dinnerCalories").value = dinner.calories;
   document.getElementById("todayHeadline").textContent = `${day}'s plan is ready.`;
   document.getElementById("todaySubline").textContent =
     `${breakfast.name} | ${learningByDay[day]}`;
@@ -876,9 +882,13 @@ function normalizeEntry(data) {
     workoutType,
     junkCount: numberOrZero(data.junkCount),
     breakfast: data.breakfast || "",
+    breakfastCalories: numberOrZero(data.breakfastCalories),
     lunch: data.lunch || "",
+    lunchCalories: numberOrZero(data.lunchCalories),
     snack: data.snack || "",
+    snackCalories: numberOrZero(data.snackCalories),
     dinner: data.dinner || "",
+    dinnerCalories: numberOrZero(data.dinnerCalories),
     learningMinutes: numberOrZero(data.learningMinutes),
     learningTopic: data.learningTopic || "",
     confidenceMinutes: numberOrZero(data.confidenceMinutes),
@@ -887,6 +897,8 @@ function normalizeEntry(data) {
     gratitude: data.gratitude || "",
     notes: data.notes || "",
   };
+  entry.totalCalories =
+    entry.breakfastCalories + entry.lunchCalories + entry.snackCalories + entry.dinnerCalories;
   entry.score = calculateScore(entry);
   return entry;
 }
@@ -908,6 +920,7 @@ function calculateScore(entry) {
     entry.steps >= goals.steps,
     entry.water >= goals.water,
     entry.protein >= goals.protein,
+    entry.totalCalories > 0 && entry.totalCalories <= goals.calories,
     entry.sleep >= goals.sleep,
     entry.lemonWater,
     entry.gymYoga || entry.yoga || entry.gym || entry.workoutType === "Walk only",
@@ -924,6 +937,7 @@ function calculateScore(entry) {
 
 function renderAll() {
   renderTodayScore();
+  renderCalorieRing();
   renderDashboard();
 }
 
@@ -939,6 +953,25 @@ function renderTodayScore() {
         ? "Good foundation"
         : "Minimum mode counts"
     : "Not logged yet";
+}
+
+function renderCalorieRing() {
+  const todayEntry = entries.find((entry) => entry.date === toIsoDate(new Date()));
+  const total = todayEntry?.totalCalories || 0;
+  const target = settings.goals.calories || DEFAULT_SETTINGS.goals.calories;
+  const pct = target ? total / target : 0;
+  const cappedPct = Math.min(1, Math.max(0, pct));
+  const ring = document.getElementById("calorieRing");
+  ring.style.setProperty("--ring", `${cappedPct * 360}deg`);
+  ring.classList.toggle("over-target", pct > 1);
+  document.getElementById("calorieScore").textContent = total ? `${total}` : "0";
+  document.getElementById("calorieLabel").textContent = total
+    ? pct > 1
+      ? `${total - target} kcal over`
+      : `${target - total} kcal left`
+    : "No meals logged";
+  document.getElementById("calorieSubline").textContent =
+    `Target ${target} kcal. Visual progress is capped at 100%.`;
 }
 
 function renderDashboard() {
@@ -968,6 +1001,12 @@ function renderDashboard() {
       value: `${Math.round(avg("protein"))}g`,
       goal: `${goals.protein}g`,
       pct: avg("protein") / goals.protein,
+    },
+    {
+      label: "Calories avg",
+      value: `${Math.round(avg("totalCalories"))}`,
+      goal: `${goals.calories}`,
+      pct: avg("totalCalories") / goals.calories,
     },
     {
       label: "Score avg",
@@ -1140,6 +1179,7 @@ function renderRecentRows(rows) {
             <td>${entry.steps.toLocaleString("en-IN")}</td>
             <td>${entry.water}L</td>
             <td>${entry.protein}g</td>
+            <td>${entry.totalCalories || 0}</td>
             <td>${
               entry.workoutType ||
               (entry.gymYoga ? "Gym/Yoga" : entry.gym ? "Gym" : entry.yoga ? "Yoga" : "Rest")
@@ -1150,7 +1190,7 @@ function renderRecentRows(rows) {
         `,
       )
       .join("") ||
-    `<tr><td colspan="8">No entries yet. Save today's check-in to start.</td></tr>`;
+    `<tr><td colspan="9">No entries yet. Save today's check-in to start.</td></tr>`;
 }
 
 async function syncEntry(entry) {
@@ -1197,6 +1237,9 @@ function saveGoals() {
     protein:
       numberOrZero(document.getElementById("goalProtein").value) ||
       DEFAULT_SETTINGS.goals.protein,
+    calories:
+      numberOrZero(document.getElementById("goalCalories").value) ||
+      DEFAULT_SETTINGS.goals.calories,
     learning:
       numberOrZero(document.getElementById("goalLearning").value) ||
       DEFAULT_SETTINGS.goals.learning,
@@ -1299,6 +1342,11 @@ function normalizeEntryFromSheet(entry) {
     steps: numberOrZero(entry.steps),
     water: numberOrZero(entry.water),
     protein: numberOrZero(entry.protein),
+    breakfastCalories: numberOrZero(entry.breakfastCalories),
+    lunchCalories: numberOrZero(entry.lunchCalories),
+    snackCalories: numberOrZero(entry.snackCalories),
+    dinnerCalories: numberOrZero(entry.dinnerCalories),
+    totalCalories: numberOrZero(entry.totalCalories),
     sleep: numberOrZero(entry.sleep),
     energy: numberOrBlank(entry.energy),
     migraine: numberOrZero(entry.migraine),
@@ -1320,6 +1368,13 @@ function normalizeEntryFromSheet(entry) {
     learningMinutes: numberOrZero(entry.learningMinutes),
     confidenceMinutes: numberOrZero(entry.confidenceMinutes),
   };
+  if (!normalized.totalCalories) {
+    normalized.totalCalories =
+      normalized.breakfastCalories +
+      normalized.lunchCalories +
+      normalized.snackCalories +
+      normalized.dinnerCalories;
+  }
   normalized.score = calculateScore(normalized);
   return normalized;
 }
@@ -1384,9 +1439,13 @@ function seedDemoWeek() {
         workoutType: workoutByDay[day],
         junkCount: Math.random() > 0.7 ? 2 : 0,
         breakfast: formatMealForTextarea(breakfast),
+        breakfastCalories: breakfast.calories,
         lunch: formatMealForTextarea(lunch),
+        lunchCalories: lunch.calories,
         snack: formatMealForTextarea(snack),
+        snackCalories: snack.calories,
         dinner: formatMealForTextarea(dinner),
+        dinnerCalories: dinner.calories,
         learningMinutes: day === "Sunday" ? 15 : 25,
         learningTopic: learningByDay[day],
         confidenceMinutes: 5 + Math.round(Math.random() * 15),

@@ -33,6 +33,11 @@ const HEADERS = [
   'score',
   'gymYoga',
   'greenTea',
+  'breakfastCalories',
+  'lunchCalories',
+  'snackCalories',
+  'dinnerCalories',
+  'totalCalories',
 ];
 
 function doPost(e) {
