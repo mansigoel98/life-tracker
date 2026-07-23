@@ -1151,6 +1151,7 @@ function renderRecentRows(rows) {
             <td>${entry.date}</td>
             <td><strong>${entry.score}%</strong></td>
             <td>${entry.steps.toLocaleString("en-IN")}</td>
+            <td>${entry.weight ? `${entry.weight} kg` : "-"}</td>
             <td>${entry.totalCalories || 0}</td>
             <td>${entry.protein || 0}g</td>
             <td>${entry.gymYoga || entry.gym || entry.yoga ? "Done" : "No"}</td>
@@ -1162,7 +1163,7 @@ function renderRecentRows(rows) {
         `,
       )
       .join("") ||
-    `<tr><td colspan="10">No entries yet. Save today's check-in to start.</td></tr>`;
+    `<tr><td colspan="11">No entries yet. Save today's check-in to start.</td></tr>`;
 }
 
 async function syncEntry(entry) {
