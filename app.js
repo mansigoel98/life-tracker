@@ -881,6 +881,12 @@ function normalizeEntry(data) {
   const newLearningText = data.newLearningText || data.learningTopic || "";
   const workoutType = data.workoutType || (gymYoga ? "Workout done" : "");
   const extraMunching = data.extraMunching || "";
+  const mealProteinTotal =
+    numberOrZero(data.breakfastProtein) +
+    numberOrZero(data.lunchProtein) +
+    numberOrZero(data.snackProtein) +
+    numberOrZero(data.dinnerProtein) +
+    numberOrZero(data.extraProtein);
   const entry = {
     id: data.id || `entry-${data.date}`,
     timestamp: new Date().toISOString(),
@@ -888,7 +894,7 @@ function normalizeEntry(data) {
     day: dayNames[new Date(`${data.date}T00:00:00`).getDay()],
     steps: numberOrZero(data.steps),
     water: numberOrZero(data.water),
-    protein: numberOrZero(data.protein),
+    protein: mealProteinTotal || numberOrZero(data.protein),
     weight: numberOrBlank(data.weight),
     sleep: numberOrZero(data.sleep),
     energy: numberOrBlank(data.energy),
@@ -908,14 +914,19 @@ function normalizeEntry(data) {
     junkCount: numberOrZero(data.junkCount) || (extraMunching ? 1 : 0),
     breakfast: data.breakfast || "",
     breakfastCalories: numberOrZero(data.breakfastCalories),
+    breakfastProtein: numberOrZero(data.breakfastProtein),
     lunch: data.lunch || "",
     lunchCalories: numberOrZero(data.lunchCalories),
+    lunchProtein: numberOrZero(data.lunchProtein),
     snack: data.snack || "",
     snackCalories: numberOrZero(data.snackCalories),
+    snackProtein: numberOrZero(data.snackProtein),
     dinner: data.dinner || "",
     dinnerCalories: numberOrZero(data.dinnerCalories),
+    dinnerProtein: numberOrZero(data.dinnerProtein),
     extraMunching,
     extraCalories: numberOrZero(data.extraCalories),
+    extraProtein: numberOrZero(data.extraProtein),
     newLearningDone,
     newLearningText,
     learningMinutes: numberOrZero(data.learningMinutes) || (newLearningDone ? 60 : 0),
@@ -952,6 +963,7 @@ function calculateScore(entry) {
   const checks = [
     entry.steps >= goals.steps,
     entry.totalCalories > 0 && entry.totalCalories <= goals.calories,
+    entry.protein >= goals.protein,
     entry.morningHotWater || entry.lemonWater,
     entry.greenTea1,
     entry.greenTea2,
@@ -1027,6 +1039,12 @@ function renderDashboard() {
       value: `${Math.round(avg("totalCalories"))}`,
       goal: `${goals.calories}`,
       pct: avg("totalCalories") / goals.calories,
+    },
+    {
+      label: "Protein avg",
+      value: `${Math.round(avg("protein"))}g`,
+      goal: `${goals.protein}g`,
+      pct: avg("protein") / goals.protein,
     },
     {
       label: "Score avg",
@@ -1128,9 +1146,9 @@ function renderWeeklyChart(last7) {
       values: last7.map((entry) => Math.min(1.15, entry.totalCalories / settings.goals.calories)),
     },
     {
-      name: "Score",
+      name: "Protein",
       color: "#f5c35b",
-      values: last7.map((entry) => Math.min(1.15, entry.score / 100)),
+      values: last7.map((entry) => Math.min(1.15, entry.protein / settings.goals.protein)),
     },
   ];
 
@@ -1200,6 +1218,7 @@ function renderRecentRows(rows) {
             <td><strong>${entry.score}%</strong></td>
             <td>${entry.steps.toLocaleString("en-IN")}</td>
             <td>${entry.totalCalories || 0}</td>
+            <td>${entry.protein || 0}g</td>
             <td>${entry.gymYoga || entry.gym || entry.yoga ? "Done" : "No"}</td>
             <td>${[entry.greenTea1 || entry.greenTea, entry.greenTea2].filter(Boolean).length}/2</td>
             <td>${entry.skincareAm && entry.skincarePm ? "AM+PM" : entry.skincareAm ? "AM" : entry.skincarePm ? "PM" : "No"}</td>
@@ -1209,7 +1228,7 @@ function renderRecentRows(rows) {
         `,
       )
       .join("") ||
-    `<tr><td colspan="9">No entries yet. Save today's check-in to start.</td></tr>`;
+    `<tr><td colspan="10">No entries yet. Save today's check-in to start.</td></tr>`;
 }
 
 async function syncEntry(entry) {
@@ -1366,6 +1385,11 @@ function normalizeEntryFromSheet(entry) {
     snackCalories: numberOrZero(entry.snackCalories),
     dinnerCalories: numberOrZero(entry.dinnerCalories),
     extraCalories: numberOrZero(entry.extraCalories),
+    breakfastProtein: numberOrZero(entry.breakfastProtein),
+    lunchProtein: numberOrZero(entry.lunchProtein),
+    snackProtein: numberOrZero(entry.snackProtein),
+    dinnerProtein: numberOrZero(entry.dinnerProtein),
+    extraProtein: numberOrZero(entry.extraProtein),
     totalCalories: numberOrZero(entry.totalCalories),
     sleep: numberOrZero(entry.sleep),
     energy: numberOrBlank(entry.energy),
@@ -1395,6 +1419,14 @@ function normalizeEntryFromSheet(entry) {
       normalized.snackCalories +
       normalized.dinnerCalories +
       normalized.extraCalories;
+  }
+  if (!normalized.protein) {
+    normalized.protein =
+      normalized.breakfastProtein +
+      normalized.lunchProtein +
+      normalized.snackProtein +
+      normalized.dinnerProtein +
+      normalized.extraProtein;
   }
   normalized.score = calculateScore(normalized);
   return normalized;
@@ -1466,14 +1498,19 @@ function seedDemoWeek() {
         junkCount: Math.random() > 0.7 ? 2 : 0,
         breakfast: formatMealForTextarea(breakfast),
         breakfastCalories: breakfast.calories,
+        breakfastProtein: breakfast.protein,
         lunch: formatMealForTextarea(lunch),
         lunchCalories: lunch.calories,
+        lunchProtein: lunch.protein,
         snack: formatMealForTextarea(snack),
         snackCalories: snack.calories,
+        snackProtein: snack.protein,
         dinner: formatMealForTextarea(dinner),
         dinnerCalories: dinner.calories,
+        dinnerProtein: dinner.protein,
         extraMunching: "",
         extraCalories: 0,
+        extraProtein: 0,
         newLearningDone: day !== "Sunday",
         newLearningText: learningByDay[day],
         englishPractice: "5 min recording",

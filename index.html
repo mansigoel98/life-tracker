@@ -146,12 +146,20 @@
                   <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" />
                 </label>
                 <label>
+                  Breakfast protein
+                  <input id="breakfastProtein" name="breakfastProtein" type="number" min="0" step="1" />
+                </label>
+                <label>
                   Lunch
                   <textarea id="lunch" name="lunch" rows="2" placeholder="What I ate"></textarea>
                 </label>
                 <label>
                   Lunch calories
                   <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Lunch protein
+                  <input id="lunchProtein" name="lunchProtein" type="number" min="0" step="1" />
                 </label>
                 <label>
                   Evening
@@ -162,12 +170,20 @@
                   <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" />
                 </label>
                 <label>
+                  Evening protein
+                  <input id="snackProtein" name="snackProtein" type="number" min="0" step="1" />
+                </label>
+                <label>
                   Dinner
                   <textarea id="dinner" name="dinner" rows="2" placeholder="What I ate"></textarea>
                 </label>
                 <label>
                   Dinner calories
                   <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Dinner protein
+                  <input id="dinnerProtein" name="dinnerProtein" type="number" min="0" step="1" />
                 </label>
                 <label>
                   Extra munching
@@ -181,6 +197,10 @@
                 <label>
                   Extra calories
                   <input id="extraCalories" name="extraCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Extra protein
+                  <input id="extraProtein" name="extraProtein" type="number" min="0" step="1" />
                 </label>
               </div>
             </section>
@@ -237,7 +257,7 @@
               <div class="section-heading">
                 <div>
                   <p class="eyebrow">Last 7 days</p>
-                  <h2>Steps, calories, score</h2>
+                  <h2>Steps, calories, protein</h2>
                 </div>
               </div>
               <canvas id="weeklyChart" width="900" height="420"></canvas>
@@ -272,6 +292,7 @@
                     <th>Score</th>
                     <th>Steps</th>
                     <th>Calories</th>
+                    <th>Protein</th>
                     <th>Workout</th>
                     <th>Green tea</th>
                     <th>Skincare</th>

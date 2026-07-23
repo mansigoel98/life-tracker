@@ -375,11 +375,11 @@ h3 {
 
 .simple-meal-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(130px, 0.32fr);
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 0.28fr) minmax(120px, 0.28fr);
   gap: 12px;
 }
 
-.simple-meal-grid label:nth-child(odd) {
+.simple-meal-grid label:nth-child(3n + 1) {
   min-width: 0;
 }
 

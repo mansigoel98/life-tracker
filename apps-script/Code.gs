@@ -46,6 +46,11 @@ const HEADERS = [
   'extraCalories',
   'newLearningDone',
   'newLearningText',
+  'breakfastProtein',
+  'lunchProtein',
+  'snackProtein',
+  'dinnerProtein',
+  'extraProtein',
 ];
 
 function doPost(e) {
