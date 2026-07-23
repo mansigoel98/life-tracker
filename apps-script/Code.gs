@@ -39,6 +39,13 @@ const HEADERS = [
   'snackCalories',
   'dinnerCalories',
   'totalCalories',
+  'morningHotWater',
+  'greenTea1',
+  'greenTea2',
+  'extraMunching',
+  'extraCalories',
+  'newLearningDone',
+  'newLearningText',
 ];
 
 function doPost(e) {

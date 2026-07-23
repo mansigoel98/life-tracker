@@ -33,9 +33,6 @@
         <button class="tab-button" data-view="plan" type="button">
           Plan
         </button>
-        <button class="tab-button" data-view="library" type="button">
-          Library
-        </button>
         <button class="tab-button" data-view="setup" type="button">
           Setup
         </button>
@@ -43,62 +40,46 @@
 
       <main>
         <section class="view active" id="today">
-          <div class="hero-grid">
-            <section class="hero-panel">
-              <img
-                src="assets/morning-dashboard.png"
-                alt="Illustration of a calm morning tracker setup with water, yoga mat, breakfast, and laptop charts"
-              />
-              <div class="hero-copy">
-                <p class="eyebrow">Today's focus</p>
-                <h2 id="todayHeadline">Small wins, clean energy.</h2>
-                <p id="todaySubline">
-                  Fill the tracker once. The dashboard will do the remembering.
-                </p>
-              </div>
-            </section>
-
-            <section class="score-panel">
-              <div class="ring" id="todayRing" style="--ring: 0deg">
-                <span id="todayScore">0%</span>
-              </div>
-              <div>
-                <p class="eyebrow">Daily score</p>
-                <h2 id="scoreLabel">Not logged yet</h2>
-                <p class="muted">
-                  Goal: 12k steps, 2L water, protein, movement, skincare,
-                  learning, and confidence.
-                </p>
-              </div>
-            </section>
-
-            <section class="score-panel calorie-panel">
-              <div class="ring calorie-ring" id="calorieRing" style="--ring: 0deg">
-                <span id="calorieScore">0</span>
-              </div>
-              <div>
-                <p class="eyebrow">Calories today</p>
-                <h2 id="calorieLabel">No meals logged</h2>
-                <p class="muted" id="calorieSubline">
-                  Ring caps at target so it never wraps around.
-                </p>
-              </div>
-            </section>
+          <div class="simple-today-header">
+            <div>
+              <p class="eyebrow">Today</p>
+              <h2 id="todayHeadline">Quick daily log</h2>
+              <p class="muted" id="todaySubline">
+                Save whenever you update something. The same date row is updated in Google Sheets.
+              </p>
+            </div>
+            <div class="simple-rings">
+              <section class="mini-score">
+                <div class="ring" id="todayRing" style="--ring: 0deg">
+                  <span id="todayScore">0%</span>
+                </div>
+                <div>
+                  <p class="eyebrow">Done</p>
+                  <h3 id="scoreLabel">Not logged</h3>
+                </div>
+              </section>
+              <section class="mini-score calorie-panel">
+                <div class="ring calorie-ring" id="calorieRing" style="--ring: 0deg">
+                  <span id="calorieScore">0</span>
+                </div>
+                <div>
+                  <p class="eyebrow">Calories</p>
+                  <h3 id="calorieLabel">No meals</h3>
+                  <p class="muted" id="calorieSubline">Target 1600 kcal.</p>
+                </div>
+              </section>
+            </div>
           </div>
 
-          <form class="tracker-form" id="dailyForm">
+          <form class="tracker-form simple-form" id="dailyForm">
             <section class="form-section">
               <div class="section-heading">
                 <div>
-                  <p class="eyebrow">Core metrics</p>
-                  <h2>Daily check-in</h2>
+                  <p class="eyebrow">Basics</p>
+                  <h2>Small checkpoints</h2>
                 </div>
-                <button class="ghost-button" id="prefillButton" type="button">
-                  Use today's plan
-                </button>
               </div>
-
-              <div class="field-grid">
+              <div class="field-grid two-col">
                 <label>
                   Date
                   <input id="entryDate" name="date" type="date" required />
@@ -114,141 +95,31 @@
                     placeholder="12000"
                   />
                 </label>
-                <label>
-                  Water (L)
-                  <input
-                    id="water"
-                    name="water"
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    placeholder="2.0"
-                  />
-                </label>
-                <label>
-                  Protein (g)
-                  <input
-                    id="protein"
-                    name="protein"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="70"
-                  />
-                </label>
-                <label>
-                  Weight (kg)
-                  <input
-                    id="weight"
-                    name="weight"
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    placeholder="Optional"
-                  />
-                </label>
-                <label>
-                  Sleep (hours)
-                  <input
-                    id="sleep"
-                    name="sleep"
-                    type="number"
-                    min="0"
-                    max="12"
-                    step="0.25"
-                    placeholder="7"
-                  />
-                </label>
-                <label>
-                  Energy
-                  <select id="energy" name="energy">
-                    <option value="">Select</option>
-                    <option value="1">1 - drained</option>
-                    <option value="2">2 - low</option>
-                    <option value="3">3 - okay</option>
-                    <option value="4">4 - good</option>
-                    <option value="5">5 - strong</option>
-                  </select>
-                </label>
-                <label>
-                  Migraine level
-                  <select id="migraine" name="migraine">
-                    <option value="0">0 - none</option>
-                    <option value="1">1 - mild</option>
-                    <option value="2">2 - noticeable</option>
-                    <option value="3">3 - hard</option>
-                    <option value="4">4 - severe</option>
-                    <option value="5">5 - rest needed</option>
-                  </select>
-                </label>
               </div>
-            </section>
-
-            <section class="form-section">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Habits</p>
-                  <h2>Keep the promise small</h2>
-                </div>
-              </div>
-              <div class="toggle-grid">
+              <div class="toggle-grid simple-toggle-grid">
                 <label class="toggle-card">
-                  <input id="lemonWater" name="lemonWater" type="checkbox" />
-                  <span>Lemon water</span>
+                  <input id="morningHotWater" name="morningHotWater" type="checkbox" />
+                  <span>Morning hot water</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="greenTea1" name="greenTea1" type="checkbox" />
+                  <span>1st green tea</span>
+                </label>
+                <label class="toggle-card">
+                  <input id="greenTea2" name="greenTea2" type="checkbox" />
+                  <span>2nd green tea</span>
                 </label>
                 <label class="toggle-card">
                   <input id="gymYoga" name="gymYoga" type="checkbox" />
-                  <span>Gym/Yoga</span>
+                  <span>Workout done</span>
                 </label>
                 <label class="toggle-card">
                   <input id="skincareAm" name="skincareAm" type="checkbox" />
-                  <span>AM skincare after bath</span>
+                  <span>AM skincare</span>
                 </label>
                 <label class="toggle-card">
                   <input id="skincarePm" name="skincarePm" type="checkbox" />
                   <span>PM skincare</span>
-                </label>
-                <label class="toggle-card">
-                  <input id="plannedSnacks" name="plannedSnacks" type="checkbox" />
-                  <span>Planned snacks</span>
-                </label>
-                <label class="toggle-card">
-                  <input id="greenTea" name="greenTea" type="checkbox" />
-                  <span>Green tea 1-2 cups</span>
-                </label>
-              </div>
-
-              <div class="field-grid two-col">
-                <label>
-                  Workout type
-                  <select id="workoutType" name="workoutType">
-                    <option value="">None / rest</option>
-                    <option value="Gym A - lower body">Gym A - lower body</option>
-                    <option value="Gym B - upper body">Gym B - upper body</option>
-                    <option value="Gym C - full body">Gym C - full body</option>
-                    <option value="Yoga A - migraine friendly">
-                      Yoga A - migraine friendly
-                    </option>
-                    <option value="Yoga B - strength and flexibility">
-                      Yoga B - strength and flexibility
-                    </option>
-                    <option value="Saturday mobility + dance">
-                      Saturday mobility + dance
-                    </option>
-                    <option value="Restorative yoga">Restorative yoga</option>
-                    <option value="Walk only">Walk only</option>
-                  </select>
-                </label>
-                <label>
-                  Junk count
-                  <input
-                    id="junkCount"
-                    name="junkCount"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="0"
-                  />
                 </label>
               </div>
             </section>
@@ -257,150 +128,88 @@
               <div class="section-heading">
                 <div>
                   <p class="eyebrow">Food</p>
-                  <h2>Vegetarian protein plan</h2>
+                  <h2>What I had</h2>
                 </div>
               </div>
-              <p class="meal-note">
-                Calories are approximate. Use the portion line as the real guide.
-              </p>
-              <div class="meal-grid">
-                <div class="meal-entry-card">
-                  <label>
-                    Choose breakfast
-                    <select id="breakfastSelect" name="breakfastSelect"></select>
-                  </label>
-                  <label>
-                    Breakfast
-                    <textarea id="breakfast" name="breakfast" rows="3"></textarea>
-                  </label>
-                  <label>
-                    Breakfast calories
-                    <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" />
-                  </label>
-                </div>
-                <div class="meal-entry-card">
-                  <label>
-                    Choose lunch
-                    <select id="lunchSelect" name="lunchSelect"></select>
-                  </label>
-                  <label>
-                    Lunch - 2:00 pm
-                    <textarea id="lunch" name="lunch" rows="3"></textarea>
-                  </label>
-                  <label>
-                    Lunch calories
-                    <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" />
-                  </label>
-                </div>
-                <div class="meal-entry-card">
-                  <label>
-                    Choose snack
-                    <select id="snackSelect" name="snackSelect"></select>
-                  </label>
-                  <label>
-                    Snack - 12:30 pm and 4:30 pm
-                    <textarea id="snack" name="snack" rows="3"></textarea>
-                  </label>
-                  <label>
-                    Snack calories
-                    <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" />
-                  </label>
-                </div>
-                <div class="meal-entry-card">
-                  <label>
-                    Choose dinner
-                    <select id="dinnerSelect" name="dinnerSelect"></select>
-                  </label>
-                  <label>
-                    Dinner
-                    <textarea id="dinner" name="dinner" rows="3"></textarea>
-                  </label>
-                  <label>
-                    Dinner calories
-                    <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" />
-                  </label>
-                </div>
+              <div class="simple-meal-grid">
+                <label>
+                  Breakfast
+                  <textarea
+                    id="breakfast"
+                    name="breakfast"
+                    rows="2"
+                    placeholder="What I ate"
+                  ></textarea>
+                </label>
+                <label>
+                  Breakfast calories
+                  <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Lunch
+                  <textarea id="lunch" name="lunch" rows="2" placeholder="What I ate"></textarea>
+                </label>
+                <label>
+                  Lunch calories
+                  <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Evening
+                  <textarea id="snack" name="snack" rows="2" placeholder="Snack / chai / evening food"></textarea>
+                </label>
+                <label>
+                  Evening calories
+                  <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Dinner
+                  <textarea id="dinner" name="dinner" rows="2" placeholder="What I ate"></textarea>
+                </label>
+                <label>
+                  Dinner calories
+                  <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" />
+                </label>
+                <label>
+                  Extra munching
+                  <textarea
+                    id="extraMunching"
+                    name="extraMunching"
+                    rows="2"
+                    placeholder="Biscuit, namkeen, chocolate, anything extra"
+                  ></textarea>
+                </label>
+                <label>
+                  Extra calories
+                  <input id="extraCalories" name="extraCalories" type="number" min="0" step="10" />
+                </label>
               </div>
             </section>
 
             <section class="form-section">
               <div class="section-heading">
                 <div>
-                  <p class="eyebrow">Career and confidence</p>
-                  <h2>One visible rep</h2>
+                  <p class="eyebrow">Learning</p>
+                  <h2>One hour something new</h2>
                 </div>
               </div>
-              <div class="field-grid">
+              <div class="learning-row">
+                <label class="toggle-card">
+                  <input id="newLearningDone" name="newLearningDone" type="checkbox" />
+                  <span>1 hr something new</span>
+                </label>
                 <label>
-                  Learning minutes
+                  What new?
                   <input
-                    id="learningMinutes"
-                    name="learningMinutes"
-                    type="number"
-                    min="0"
-                    step="5"
-                    placeholder="25"
+                    id="newLearningText"
+                    name="newLearningText"
+                    type="text"
+                    placeholder="Kubernetes, Java, DSA, driving, dance..."
                   />
                 </label>
-                <label>
-                  Learning topic
-                  <select id="learningTopic" name="learningTopic"></select>
-                </label>
-                <label>
-                  Confidence minutes
-                  <input
-                    id="confidenceMinutes"
-                    name="confidenceMinutes"
-                    type="number"
-                    min="0"
-                    step="5"
-                    placeholder="5"
-                  />
-                </label>
-                <label>
-                  English practice
-                  <select id="englishPractice" name="englishPractice">
-                    <option value="">Select</option>
-                    <option>5 min recording</option>
-                    <option>Read aloud</option>
-                    <option>Meeting phrase practice</option>
-                    <option>LinkedIn draft</option>
-                    <option>Book reading</option>
-                  </select>
-                </label>
               </div>
-              <div class="field-grid two-col">
-                <label>
-                  Work win / blocker clarified
-                  <textarea
-                    id="workWin"
-                    name="workWin"
-                    rows="3"
-                    placeholder="One useful thing I shipped, learned, or clarified"
-                  ></textarea>
-                </label>
-                <label>
-                  Gratitude / fun
-                  <textarea
-                    id="gratitude"
-                    name="gratitude"
-                    rows="3"
-                    placeholder="One small thing that made life feel nice"
-                  ></textarea>
-                </label>
-              </div>
-              <label>
-                Notes
-                <textarea
-                  id="notes"
-                  name="notes"
-                  rows="3"
-                  placeholder="Migraine triggers, cravings, commute energy, anything useful"
-                ></textarea>
-              </label>
             </section>
 
-            <div class="form-actions">
+            <div class="form-actions sticky-actions">
               <button class="primary-button" type="submit">Save daily entry</button>
               <button class="secondary-button" id="resetFormButton" type="button">
                 Clear form
@@ -428,7 +237,7 @@
               <div class="section-heading">
                 <div>
                   <p class="eyebrow">Last 7 days</p>
-                  <h2>Steps, water, protein</h2>
+                  <h2>Steps, calories, score</h2>
                 </div>
               </div>
               <canvas id="weeklyChart" width="900" height="420"></canvas>
@@ -462,12 +271,12 @@
                     <th>Date</th>
                     <th>Score</th>
                     <th>Steps</th>
-                    <th>Water</th>
-                    <th>Protein</th>
                     <th>Calories</th>
-                    <th>Movement</th>
-                    <th>Migraine</th>
+                    <th>Workout</th>
+                    <th>Green tea</th>
+                    <th>Skincare</th>
                     <th>Learning</th>
+                    <th>Extra</th>
                   </tr>
                 </thead>
                 <tbody id="recentRows"></tbody>
@@ -514,34 +323,6 @@
               </div>
             </div>
             <div class="prep-grid" id="prepGrid"></div>
-          </section>
-        </section>
-
-        <section class="view" id="library">
-          <div class="dashboard-header">
-            <div>
-              <p class="eyebrow">Library</p>
-              <h2>Gym, yoga, and confidence drills</h2>
-            </div>
-          </div>
-          <div class="library-grid" id="workoutLibrary"></div>
-          <section class="form-section">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Confidence</p>
-                <h2>Daily speaking reps</h2>
-              </div>
-            </div>
-            <div class="confidence-grid" id="confidenceGrid"></div>
-          </section>
-          <section class="form-section">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Listen and speak</p>
-                <h2>English and confidence resources</h2>
-              </div>
-            </div>
-            <div class="resource-grid" id="resourceGrid"></div>
           </section>
         </section>
 
@@ -671,46 +452,6 @@
           </section>
         </section>
       </main>
-    </div>
-
-    <div class="exercise-modal" id="exerciseModal" aria-hidden="true">
-      <div
-        class="exercise-modal-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="exerciseModalTitle"
-      >
-        <button
-          class="exercise-modal-close"
-          id="exerciseModalClose"
-          type="button"
-          aria-label="Close exercise preview"
-        >
-          ×
-        </button>
-        <div class="exercise-modal-media">
-          <img
-            class="demo-frame demo-frame--start"
-            id="exerciseModalStart"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="demo-frame demo-frame--move"
-            id="exerciseModalMove"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <span class="demo-frame-label">start to move</span>
-        </div>
-        <div class="exercise-modal-copy">
-          <p class="eyebrow">Exercise demo</p>
-          <h2 id="exerciseModalTitle">Exercise preview</h2>
-          <p id="exerciseModalCue"></p>
-        </div>
-      </div>
     </div>
 
     <script src="app.js" defer></script>

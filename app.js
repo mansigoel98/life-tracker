@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS = {
     water: 2,
     protein: 70,
     calories: 1600,
-    learning: 25,
+    learning: 60,
     confidence: 5,
     sleep: 7,
   },
@@ -534,70 +534,6 @@ const workoutByDay = {
   Sunday: "Restorative yoga",
 };
 
-const exerciseImageBase =
-  "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises";
-
-const exerciseMedia = {
-  squat: "Bodyweight_Squat",
-  hinge: "Stiff-Legged_Dumbbell_Deadlift",
-  plank: "Plank",
-  catcow: "Cat_Stretch",
-  lunge: "Bodyweight_Walking_Lunge",
-  legs: "90_90_Hamstring",
-  row: "Seated_Cable_Rows",
-  press: "Dumbbell_Shoulder_Press",
-  deadbug: "Dead_Bug",
-  warrior: "Dancers_Stretch",
-  bridge: "Butt_Lift_Bridge",
-  birddog: "Superman",
-  stepup: "Step-up_with_Knee_Raise",
-  carry: "Farmers_Walk",
-  child: "Childs_Pose",
-  twist: "Dancers_Stretch",
-};
-
-const confidenceDrills = [
-  ["5-minute audio", "Speak on today's topic. Listen once. Note one improvement."],
-  ["Meeting phrase", "Use one phrase like 'The trade-off here is...' in a real meeting."],
-  ["Read aloud", "Read 5 pages and underline 3 phrases you can reuse."],
-  ["Explain simply", "Explain one Java or system design concept like teaching a junior."],
-  ["Story rep", "Tell one small life story with beginning, middle, and end."],
-  ["LinkedIn draft", "Write one short backend learning post. Publish later if ready."],
-];
-
-const resourceLinks = [
-  {
-    title: "BBC 6 Minute English",
-    type: "Listening + vocabulary",
-    url: "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english",
-    note: "Short episodes; good for commute-light days or morning listening.",
-  },
-  {
-    title: "BBC The English We Speak",
-    type: "Phrases and idioms",
-    url: "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak",
-    note: "Useful everyday expressions without heavy effort.",
-  },
-  {
-    title: "TED Talks Daily",
-    type: "Ideas + speaking style",
-    url: "https://www.ted.com/podcasts/ted-talks-daily",
-    note: "Listen for structure: opening, story, point, close.",
-  },
-  {
-    title: "Toastmasters International",
-    type: "Public speaking",
-    url: "https://www.youtube.com/user/Toastmasters",
-    note: "Practical speaking tips and stage confidence basics.",
-  },
-  {
-    title: "Vinh Giang",
-    type: "Voice + communication",
-    url: "https://www.youtube.com/@askvinh",
-    note: "Good for voice, pauses, presence, and confident delivery.",
-  },
-];
-
 const visualTemplates = {
   chilla: [
     ["--x:14%;--y:36%;--w:58%;--h:20%;--c:#d49a45;--r:999px;--rot:-8deg"],
@@ -667,7 +603,6 @@ const visualTemplates = {
 
 let entries = [];
 let settings = structuredClone(DEFAULT_SETTINGS);
-let previousExerciseModalFocus = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadState();
@@ -721,14 +656,6 @@ function formatMealForTextarea(option) {
   return `${option.name} (~${option.calories} kcal, ${option.protein}g protein)\nPortion: ${option.portion}`;
 }
 
-function escapeAttribute(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
 function renderMealVisual(option) {
   const shapes = visualTemplates[option.visual] || visualTemplates.bowl;
   return `
@@ -756,43 +683,17 @@ function renderMealOptionCard(id) {
   `;
 }
 
-function renderExerciseDemo([name, type, cue]) {
-  const mediaId = exerciseMedia[type] || exerciseMedia.squat;
-  const startFrame = `${exerciseImageBase}/${mediaId}/0.jpg`;
-  const moveFrame = `${exerciseImageBase}/${mediaId}/1.jpg`;
-  const safeName = escapeAttribute(name);
-  const safeCue = escapeAttribute(cue);
-  const safeStartFrame = escapeAttribute(startFrame);
-  const safeMoveFrame = escapeAttribute(moveFrame);
-  return `
-    <div class="exercise-demo exercise-demo--${type}" title="${safeName}">
-      <button
-        class="human-demo-stage"
-        type="button"
-        data-exercise-trigger="true"
-        data-exercise-name="${safeName}"
-        data-exercise-cue="${safeCue}"
-        data-start-frame="${safeStartFrame}"
-        data-move-frame="${safeMoveFrame}"
-        aria-label="Open ${safeName} full screen exercise demo"
-      >
-        <img class="demo-frame demo-frame--start" src="${safeStartFrame}" alt="${safeName} start position" loading="lazy" decoding="async" />
-        <img class="demo-frame demo-frame--move" src="${safeMoveFrame}" alt="${safeName} movement position" loading="lazy" decoding="async" />
-        <span class="demo-frame-label">start to move</span>
-      </button>
-      <span class="demo-name">${safeName}</span>
-      <p>${safeCue}</p>
-    </div>
-  `;
-}
-
 function bindEvents() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", () => showView(button.dataset.view));
   });
 
   document.getElementById("dailyForm").addEventListener("submit", saveEntry);
-  document.getElementById("prefillButton").addEventListener("click", prefillMeals);
+  document.getElementById("entryDate").addEventListener("change", (event) => {
+    document.getElementById("dailyForm").reset();
+    document.getElementById("entryDate").value = event.target.value;
+    loadEntryForDate(event.target.value);
+  });
   document.getElementById("resetFormButton").addEventListener("click", () => {
     document.getElementById("dailyForm").reset();
     setTodayDefaults();
@@ -804,68 +705,6 @@ function bindEvents() {
   document.getElementById("exportButton").addEventListener("click", exportJson);
   document.getElementById("seedDemoButton").addEventListener("click", seedDemoWeek);
   document.getElementById("clearDataButton").addEventListener("click", clearLocalData);
-  bindExerciseModal();
-  ["breakfast", "lunch", "snack", "dinner"].forEach((mealType) => {
-    document
-      .getElementById(`${mealType}Select`)
-      .addEventListener("change", (event) => applyMealChoice(mealType, event.target.value));
-  });
-}
-
-function bindExerciseModal() {
-  const workoutLibrary = document.getElementById("workoutLibrary");
-  const modal = document.getElementById("exerciseModal");
-  const closeButton = document.getElementById("exerciseModalClose");
-
-  workoutLibrary.addEventListener("click", (event) => {
-    const trigger = event.target.closest("[data-exercise-trigger]");
-    if (!trigger || !workoutLibrary.contains(trigger)) return;
-    openExerciseModal(trigger.dataset);
-  });
-
-  closeButton.addEventListener("click", closeExerciseModal);
-
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeExerciseModal();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.classList.contains("open")) {
-      closeExerciseModal();
-    }
-  });
-}
-
-function openExerciseModal(data) {
-  previousExerciseModalFocus = document.activeElement;
-  const modal = document.getElementById("exerciseModal");
-  const startImage = document.getElementById("exerciseModalStart");
-  const moveImage = document.getElementById("exerciseModalMove");
-  const title = document.getElementById("exerciseModalTitle");
-  const cue = document.getElementById("exerciseModalCue");
-
-  startImage.src = data.startFrame;
-  moveImage.src = data.moveFrame;
-  startImage.alt = `${data.exerciseName} start position`;
-  moveImage.alt = `${data.exerciseName} movement position`;
-  title.textContent = data.exerciseName;
-  cue.textContent = data.exerciseCue;
-
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  document.getElementById("exerciseModalClose").focus();
-}
-
-function closeExerciseModal() {
-  const modal = document.getElementById("exerciseModal");
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
-
-  if (previousExerciseModalFocus && typeof previousExerciseModalFocus.focus === "function") {
-    previousExerciseModalFocus.focus();
-  }
 }
 
 function showView(viewId) {
@@ -881,27 +720,6 @@ function showView(viewId) {
 }
 
 function hydrateStaticContent() {
-  const topicSelect = document.getElementById("learningTopic");
-  topicSelect.innerHTML = Object.values(learningByDay)
-    .map((topic) => `<option>${topic}</option>`)
-    .join("");
-
-  const mealSelects = {
-    breakfast: "Breakfast",
-    lunch: "Lunch",
-    snack: "Snack",
-    dinner: "Dinner",
-  };
-  Object.entries(mealSelects).forEach(([mealType, mealName]) => {
-    const select = document.getElementById(`${mealType}Select`);
-    select.innerHTML = mealOptionsFor(mealName)
-      .map(
-        ([id, option]) =>
-          `<option value="${id}">${option.name} - ${option.calories} kcal, ${option.protein}g protein</option>`,
-      )
-      .join("");
-  });
-
   document.getElementById("routineTimeline").innerHTML = routine
     .map(
       ([time, task]) => `
@@ -965,48 +783,6 @@ function hydrateStaticContent() {
     )
     .join("");
 
-  document.getElementById("workoutLibrary").innerHTML = workouts
-    .map(
-      (workout) => `
-        <article class="library-card">
-          <header>
-            <h3>${workout.title}</h3>
-            <span class="tag">${workout.tag}</span>
-          </header>
-          <div class="exercise-demo-grid">
-            ${(workout.demos || []).map((demo) => renderExerciseDemo(demo)).join("")}
-          </div>
-          <ol>
-            ${workout.steps.map((step) => `<li>${step}</li>`).join("")}
-          </ol>
-        </article>
-      `,
-    )
-    .join("");
-
-  document.getElementById("confidenceGrid").innerHTML = confidenceDrills
-    .map(
-      ([title, detail]) => `
-        <article class="confidence-card">
-          <h3>${title}</h3>
-          <p class="muted">${detail}</p>
-        </article>
-      `,
-    )
-    .join("");
-
-  document.getElementById("resourceGrid").innerHTML = resourceLinks
-    .map(
-      (item) => `
-        <a class="resource-card" href="${item.url}" target="_blank" rel="noopener noreferrer">
-          <span class="tag">${item.type}</span>
-          <h3>${item.title}</h3>
-          <p>${item.note}</p>
-        </a>
-      `,
-    )
-    .join("");
-
   document.getElementById("goalSteps").value = settings.goals.steps;
   document.getElementById("goalWater").value = settings.goals.water;
   document.getElementById("goalProtein").value = settings.goals.protein;
@@ -1022,37 +798,11 @@ function setTodayDefaults() {
   const today = new Date();
   const iso = toIsoDate(today);
   document.getElementById("entryDate").value = iso;
-  document.getElementById("migraine").value = "0";
   const day = dayNames[today.getDay()];
-  document.getElementById("learningTopic").value = learningByDay[day];
-  prefillMeals();
-  loadEntryForDate(iso);
-}
-
-function prefillMeals() {
-  const date = document.getElementById("entryDate").value || toIsoDate(new Date());
-  const day = dayNames[new Date(`${date}T00:00:00`).getDay()];
-  const breakfast = primaryMeal(day, "breakfast");
-  const lunch = primaryMeal(day, "lunch");
-  const snack = primaryMeal(day, "snack");
-  const dinner = primaryMeal(day, "dinner");
-  document.getElementById("breakfastSelect").value = mealPlan[day].breakfast[0];
-  document.getElementById("lunchSelect").value = mealPlan[day].lunch[0];
-  document.getElementById("snackSelect").value = mealPlan[day].snack[0];
-  document.getElementById("dinnerSelect").value = mealPlan[day].dinner[0];
-  applyMealChoice("breakfast", mealPlan[day].breakfast[0]);
-  applyMealChoice("lunch", mealPlan[day].lunch[0]);
-  applyMealChoice("snack", mealPlan[day].snack[0]);
-  applyMealChoice("dinner", mealPlan[day].dinner[0]);
-  document.getElementById("todayHeadline").textContent = `${day}'s plan is ready.`;
+  document.getElementById("todayHeadline").textContent = `${day}'s quick log`;
   document.getElementById("todaySubline").textContent =
-    `${breakfast.name} | ${learningByDay[day]}`;
-}
-
-function applyMealChoice(mealType, optionId) {
-  const option = getMealOption(optionId);
-  document.getElementById(mealType).value = formatMealForTextarea(option);
-  document.getElementById(`${mealType}Calories`).value = option.calories;
+    "Save whenever something changes. Today's sheet row will be updated.";
+  loadEntryForDate(iso);
 }
 
 function loadEntryForDate(date) {
@@ -1073,6 +823,22 @@ function loadEntryForDate(date) {
   if (movement) {
     movement.checked = Boolean(existing.gymYoga || existing.yoga || existing.gym);
   }
+  const hotWater = document.getElementById("morningHotWater");
+  if (hotWater && existing.morningHotWater === undefined) {
+    hotWater.checked = Boolean(existing.lemonWater);
+  }
+  if (existing.greenTea && existing.greenTea1 === undefined && existing.greenTea2 === undefined) {
+    const greenTea1 = document.getElementById("greenTea1");
+    if (greenTea1) greenTea1.checked = true;
+  }
+  if (existing.learningMinutes >= 60 && existing.newLearningDone === undefined) {
+    const learningDone = document.getElementById("newLearningDone");
+    if (learningDone) learningDone.checked = true;
+  }
+  if (existing.learningTopic && !existing.newLearningText) {
+    const learningText = document.getElementById("newLearningText");
+    if (learningText) learningText.value = existing.learningTopic;
+  }
 }
 
 function saveEntry(event) {
@@ -1080,12 +846,13 @@ function saveEntry(event) {
   const form = event.currentTarget;
   const data = Object.fromEntries(new FormData(form).entries());
   const checkboxIds = [
-    "lemonWater",
+    "morningHotWater",
+    "greenTea1",
+    "greenTea2",
     "gymYoga",
     "skincareAm",
     "skincarePm",
-    "plannedSnacks",
-    "greenTea",
+    "newLearningDone",
   ];
   checkboxIds.forEach((id) => {
     data[id] = document.getElementById(id).checked;
@@ -1107,7 +874,13 @@ function saveEntry(event) {
 
 function normalizeEntry(data) {
   const gymYoga = Boolean(data.gymYoga || data.yoga || data.gym);
-  const workoutType = data.workoutType || "";
+  const morningHotWater = Boolean(data.morningHotWater || data.lemonWater);
+  const greenTea1 = Boolean(data.greenTea1);
+  const greenTea2 = Boolean(data.greenTea2);
+  const newLearningDone = Boolean(data.newLearningDone);
+  const newLearningText = data.newLearningText || data.learningTopic || "";
+  const workoutType = data.workoutType || (gymYoga ? "Workout done" : "");
+  const extraMunching = data.extraMunching || "";
   const entry = {
     id: data.id || `entry-${data.date}`,
     timestamp: new Date().toISOString(),
@@ -1120,16 +893,19 @@ function normalizeEntry(data) {
     sleep: numberOrZero(data.sleep),
     energy: numberOrBlank(data.energy),
     migraine: numberOrZero(data.migraine),
-    lemonWater: Boolean(data.lemonWater),
+    morningHotWater,
+    lemonWater: morningHotWater,
+    greenTea1,
+    greenTea2,
+    greenTea: Boolean(data.greenTea || greenTea1 || greenTea2),
     gymYoga,
     yoga: gymYoga && /yoga|restorative/i.test(workoutType),
     gym: gymYoga && /gym/i.test(workoutType),
     skincareAm: Boolean(data.skincareAm),
     skincarePm: Boolean(data.skincarePm),
     plannedSnacks: Boolean(data.plannedSnacks),
-    greenTea: Boolean(data.greenTea),
     workoutType,
-    junkCount: numberOrZero(data.junkCount),
+    junkCount: numberOrZero(data.junkCount) || (extraMunching ? 1 : 0),
     breakfast: data.breakfast || "",
     breakfastCalories: numberOrZero(data.breakfastCalories),
     lunch: data.lunch || "",
@@ -1138,8 +914,12 @@ function normalizeEntry(data) {
     snackCalories: numberOrZero(data.snackCalories),
     dinner: data.dinner || "",
     dinnerCalories: numberOrZero(data.dinnerCalories),
-    learningMinutes: numberOrZero(data.learningMinutes),
-    learningTopic: data.learningTopic || "",
+    extraMunching,
+    extraCalories: numberOrZero(data.extraCalories),
+    newLearningDone,
+    newLearningText,
+    learningMinutes: numberOrZero(data.learningMinutes) || (newLearningDone ? 60 : 0),
+    learningTopic: newLearningText,
     confidenceMinutes: numberOrZero(data.confidenceMinutes),
     englishPractice: data.englishPractice || "",
     workWin: data.workWin || "",
@@ -1147,7 +927,11 @@ function normalizeEntry(data) {
     notes: data.notes || "",
   };
   entry.totalCalories =
-    entry.breakfastCalories + entry.lunchCalories + entry.snackCalories + entry.dinnerCalories;
+    entry.breakfastCalories +
+    entry.lunchCalories +
+    entry.snackCalories +
+    entry.dinnerCalories +
+    entry.extraCalories;
   entry.score = calculateScore(entry);
   return entry;
 }
@@ -1167,19 +951,18 @@ function calculateScore(entry) {
   const goals = settings.goals;
   const checks = [
     entry.steps >= goals.steps,
-    entry.water >= goals.water,
-    entry.protein >= goals.protein,
     entry.totalCalories > 0 && entry.totalCalories <= goals.calories,
-    entry.sleep >= goals.sleep,
-    entry.lemonWater,
+    entry.morningHotWater || entry.lemonWater,
+    entry.greenTea1,
+    entry.greenTea2,
     entry.gymYoga || entry.yoga || entry.gym || Boolean(entry.workoutType),
     entry.skincareAm,
     entry.skincarePm,
-    entry.plannedSnacks,
-    entry.greenTea,
-    entry.junkCount <= 1,
-    entry.learningMinutes >= goals.learning,
-    entry.confidenceMinutes >= goals.confidence,
+    Boolean(entry.breakfast || entry.breakfastCalories),
+    Boolean(entry.lunch || entry.lunchCalories),
+    Boolean(entry.snack || entry.snackCalories),
+    Boolean(entry.dinner || entry.dinnerCalories),
+    entry.newLearningDone || entry.learningMinutes >= goals.learning,
   ];
   return Math.round((checks.filter(Boolean).length / checks.length) * 100);
 }
@@ -1240,18 +1023,6 @@ function renderDashboard() {
       pct: avg("steps") / goals.steps,
     },
     {
-      label: "Water avg",
-      value: `${avg("water").toFixed(1)}L`,
-      goal: `${goals.water}L`,
-      pct: avg("water") / goals.water,
-    },
-    {
-      label: "Protein avg",
-      value: `${Math.round(avg("protein"))}g`,
-      goal: `${goals.protein}g`,
-      pct: avg("protein") / goals.protein,
-    },
-    {
       label: "Calories avg",
       value: `${Math.round(avg("totalCalories"))}`,
       goal: `${goals.calories}`,
@@ -1262,6 +1033,24 @@ function renderDashboard() {
       value: `${Math.round(avg("score"))}%`,
       goal: "80%",
       pct: avg("score") / 80,
+    },
+    {
+      label: "Hot water",
+      value: `${last7.filter((entry) => entry.morningHotWater || entry.lemonWater).length}/7`,
+      goal: "7/7",
+      pct: last7.filter((entry) => entry.morningHotWater || entry.lemonWater).length / 7,
+    },
+    {
+      label: "Green tea 1",
+      value: `${last7.filter((entry) => entry.greenTea1 || entry.greenTea).length}/7`,
+      goal: "7/7",
+      pct: last7.filter((entry) => entry.greenTea1 || entry.greenTea).length / 7,
+    },
+    {
+      label: "Green tea 2",
+      value: `${last7.filter((entry) => entry.greenTea2).length}/7`,
+      goal: "5/7",
+      pct: last7.filter((entry) => entry.greenTea2).length / 5,
     },
     {
       label: "Workout days",
@@ -1277,27 +1066,11 @@ function renderDashboard() {
     },
     {
       label: "Learning days",
-      value: `${last7.filter((entry) => entry.learningMinutes >= goals.learning).length}/7`,
+      value: `${last7.filter((entry) => entry.newLearningDone || entry.learningMinutes >= goals.learning).length}/7`,
       goal: "5/7",
-      pct: last7.filter((entry) => entry.learningMinutes >= goals.learning).length / 5,
-    },
-    {
-      label: "Confidence days",
-      value: `${last7.filter((entry) => entry.confidenceMinutes >= goals.confidence).length}/7`,
-      goal: "5/7",
-      pct: last7.filter((entry) => entry.confidenceMinutes >= goals.confidence).length / 5,
-    },
-    {
-      label: "Low migraine days",
-      value: `${last7.filter((entry) => Number(entry.migraine || 0) <= 1).length}/7`,
-      goal: "6/7",
-      pct: last7.filter((entry) => Number(entry.migraine || 0) <= 1).length / 6,
-    },
-    {
-      label: "Green tea days",
-      value: `${last7.filter((entry) => entry.greenTea).length}/7`,
-      goal: "5/7",
-      pct: last7.filter((entry) => entry.greenTea).length / 5,
+      pct:
+        last7.filter((entry) => entry.newLearningDone || entry.learningMinutes >= goals.learning)
+          .length / 5,
     },
   ];
 
@@ -1350,14 +1123,14 @@ function renderWeeklyChart(last7) {
       values: last7.map((entry) => Math.min(1.15, entry.steps / settings.goals.steps)),
     },
     {
-      name: "Water",
+      name: "Calories",
       color: "#ee765f",
-      values: last7.map((entry) => Math.min(1.15, entry.water / settings.goals.water)),
+      values: last7.map((entry) => Math.min(1.15, entry.totalCalories / settings.goals.calories)),
     },
     {
-      name: "Protein",
+      name: "Score",
       color: "#f5c35b",
-      values: last7.map((entry) => Math.min(1.15, entry.protein / settings.goals.protein)),
+      values: last7.map((entry) => Math.min(1.15, entry.score / 100)),
     },
   ];
 
@@ -1426,15 +1199,12 @@ function renderRecentRows(rows) {
             <td>${entry.date}</td>
             <td><strong>${entry.score}%</strong></td>
             <td>${entry.steps.toLocaleString("en-IN")}</td>
-            <td>${entry.water}L</td>
-            <td>${entry.protein}g</td>
             <td>${entry.totalCalories || 0}</td>
-            <td>${
-              entry.workoutType ||
-              (entry.gymYoga ? "Gym/Yoga" : entry.gym ? "Gym" : entry.yoga ? "Yoga" : "Rest")
-            }</td>
-            <td>${entry.migraine}/5</td>
-            <td>${entry.learningMinutes} min</td>
+            <td>${entry.gymYoga || entry.gym || entry.yoga ? "Done" : "No"}</td>
+            <td>${[entry.greenTea1 || entry.greenTea, entry.greenTea2].filter(Boolean).length}/2</td>
+            <td>${entry.skincareAm && entry.skincarePm ? "AM+PM" : entry.skincareAm ? "AM" : entry.skincarePm ? "PM" : "No"}</td>
+            <td>${entry.newLearningDone || entry.learningMinutes >= settings.goals.learning ? "1 hr" : "No"}</td>
+            <td>${entry.extraCalories || 0}</td>
           </tr>
         `,
       )
@@ -1595,25 +1365,26 @@ function normalizeEntryFromSheet(entry) {
     lunchCalories: numberOrZero(entry.lunchCalories),
     snackCalories: numberOrZero(entry.snackCalories),
     dinnerCalories: numberOrZero(entry.dinnerCalories),
+    extraCalories: numberOrZero(entry.extraCalories),
     totalCalories: numberOrZero(entry.totalCalories),
     sleep: numberOrZero(entry.sleep),
     energy: numberOrBlank(entry.energy),
     migraine: numberOrZero(entry.migraine),
-    lemonWater: entry.lemonWater === true || entry.lemonWater === "TRUE",
-    yoga: entry.yoga === true || entry.yoga === "TRUE",
-    gym: entry.gym === true || entry.gym === "TRUE",
+    morningHotWater: isTruthy(entry.morningHotWater) || isTruthy(entry.lemonWater),
+    lemonWater: isTruthy(entry.morningHotWater) || isTruthy(entry.lemonWater),
+    greenTea1: isTruthy(entry.greenTea1) || isTruthy(entry.greenTea),
+    greenTea2: isTruthy(entry.greenTea2),
+    greenTea: isTruthy(entry.greenTea) || isTruthy(entry.greenTea1) || isTruthy(entry.greenTea2),
+    yoga: isTruthy(entry.yoga),
+    gym: isTruthy(entry.gym),
     gymYoga:
-      entry.gymYoga === true ||
-      entry.gymYoga === "TRUE" ||
-      entry.yoga === true ||
-      entry.yoga === "TRUE" ||
-      entry.gym === true ||
-      entry.gym === "TRUE",
-    skincareAm: entry.skincareAm === true || entry.skincareAm === "TRUE",
-    skincarePm: entry.skincarePm === true || entry.skincarePm === "TRUE",
-    plannedSnacks: entry.plannedSnacks === true || entry.plannedSnacks === "TRUE",
-    greenTea: entry.greenTea === true || entry.greenTea === "TRUE",
+      isTruthy(entry.gymYoga) || isTruthy(entry.yoga) || isTruthy(entry.gym),
+    skincareAm: isTruthy(entry.skincareAm),
+    skincarePm: isTruthy(entry.skincarePm),
+    plannedSnacks: isTruthy(entry.plannedSnacks),
     junkCount: numberOrZero(entry.junkCount),
+    newLearningDone: isTruthy(entry.newLearningDone) || numberOrZero(entry.learningMinutes) >= 60,
+    newLearningText: entry.newLearningText || entry.learningTopic || "",
     learningMinutes: numberOrZero(entry.learningMinutes),
     confidenceMinutes: numberOrZero(entry.confidenceMinutes),
   };
@@ -1622,10 +1393,15 @@ function normalizeEntryFromSheet(entry) {
       normalized.breakfastCalories +
       normalized.lunchCalories +
       normalized.snackCalories +
-      normalized.dinnerCalories;
+      normalized.dinnerCalories +
+      normalized.extraCalories;
   }
   normalized.score = calculateScore(normalized);
   return normalized;
+}
+
+function isTruthy(value) {
+  return value === true || value === "TRUE" || value === "true" || value === 1 || value === "1";
 }
 
 function updateSyncPill(label) {
@@ -1673,7 +1449,9 @@ function seedDemoWeek() {
         sleep: (6 + Math.random() * 1.8).toFixed(1),
         energy: 3 + Math.floor(Math.random() * 3),
         migraine: Math.floor(Math.random() * 3),
-        lemonWater: Math.random() > 0.35,
+        morningHotWater: Math.random() > 0.35,
+        greenTea1: Math.random() > 0.2,
+        greenTea2: Math.random() > 0.45,
         gymYoga:
           day === "Monday" ||
           day === "Tuesday" ||
@@ -1682,10 +1460,8 @@ function seedDemoWeek() {
           day === "Friday" ||
           day === "Saturday" ||
           day === "Sunday",
-        greenTea: Math.random() > 0.25,
         skincareAm: Math.random() > 0.15,
         skincarePm: Math.random() > 0.2,
-        plannedSnacks: Math.random() > 0.25,
         workoutType: workoutByDay[day],
         junkCount: Math.random() > 0.7 ? 2 : 0,
         breakfast: formatMealForTextarea(breakfast),
@@ -1696,9 +1472,10 @@ function seedDemoWeek() {
         snackCalories: snack.calories,
         dinner: formatMealForTextarea(dinner),
         dinnerCalories: dinner.calories,
-        learningMinutes: day === "Sunday" ? 15 : 25,
-        learningTopic: learningByDay[day],
-        confidenceMinutes: 5 + Math.round(Math.random() * 15),
+        extraMunching: "",
+        extraCalories: 0,
+        newLearningDone: day !== "Sunday",
+        newLearningText: learningByDay[day],
         englishPractice: "5 min recording",
         workWin: "Demo work note",
         gratitude: "Demo calm moment",
