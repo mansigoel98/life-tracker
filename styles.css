@@ -264,9 +264,15 @@ h3 {
     conic-gradient(var(--danger) var(--ring), #edf1ed 0deg);
 }
 
+.protein-ring {
+  background:
+    radial-gradient(circle closest-side, #ffffff 72%, transparent 73%),
+    conic-gradient(#f5c35b var(--ring), #edf1ed 0deg);
+}
+
 .simple-today-header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.8fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(560px, 1.15fr);
   gap: 16px;
   align-items: stretch;
   margin-bottom: 16px;
@@ -289,7 +295,7 @@ h3 {
 
 .simple-rings {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 

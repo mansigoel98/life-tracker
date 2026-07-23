@@ -3,7 +3,7 @@ const STORAGE_KEYS = {
   settings: "mansiLifeTracker.settings",
 };
 
-const GOAL_TARGET_VERSION = 2;
+const GOAL_TARGET_VERSION = 3;
 
 const DEFAULT_SETTINGS = {
   scriptUrl: "",
@@ -618,15 +618,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadState() {
   entries = safeParse(localStorage.getItem(STORAGE_KEYS.entries), []);
+  const savedSettings = safeParse(localStorage.getItem(STORAGE_KEYS.settings), {});
   settings = {
     ...structuredClone(DEFAULT_SETTINGS),
-    ...safeParse(localStorage.getItem(STORAGE_KEYS.settings), {}),
+    ...savedSettings,
   };
   settings.goals = {
     ...DEFAULT_SETTINGS.goals,
     ...(settings.goals || {}),
   };
-  if (settings.goalTargetVersion !== GOAL_TARGET_VERSION) {
+  if (savedSettings.goalTargetVersion !== GOAL_TARGET_VERSION) {
     settings.goals.calories = DEFAULT_SETTINGS.goals.calories;
     settings.goals.protein = DEFAULT_SETTINGS.goals.protein;
     settings.goalTargetVersion = GOAL_TARGET_VERSION;
@@ -991,6 +992,7 @@ function calculateScore(entry) {
 function renderAll() {
   renderTodayScore();
   renderCalorieRing();
+  renderProteinRing();
   renderDashboard();
 }
 
@@ -1025,6 +1027,23 @@ function renderCalorieRing() {
     : "No meals logged";
   document.getElementById("calorieSubline").textContent =
     `Target ${target} kcal. Visual progress is capped at 100%.`;
+}
+
+function renderProteinRing() {
+  const todayEntry = entries.find((entry) => entry.date === toIsoDate(new Date()));
+  const total = todayEntry?.protein || 0;
+  const target = settings.goals.protein || DEFAULT_SETTINGS.goals.protein;
+  const pct = target ? total / target : 0;
+  const cappedPct = Math.min(1, Math.max(0, pct));
+  const ring = document.getElementById("proteinRing");
+  ring.style.setProperty("--ring", `${cappedPct * 360}deg`);
+  document.getElementById("proteinScore").textContent = total ? `${total}g` : "0g";
+  document.getElementById("proteinLabel").textContent = total
+    ? pct >= 1
+      ? "Protein target done"
+      : `${target - total}g left`
+    : "No protein logged";
+  document.getElementById("proteinSubline").textContent = `Target ${target}g protein.`;
 }
 
 function renderDashboard() {
