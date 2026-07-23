@@ -131,77 +131,79 @@
                   <h2>What I had</h2>
                 </div>
               </div>
-              <div class="simple-meal-grid">
-                <label>
-                  Breakfast
-                  <textarea
-                    id="breakfast"
-                    name="breakfast"
-                    rows="2"
-                    placeholder="What I ate"
-                  ></textarea>
-                </label>
-                <label>
-                  Breakfast calories
-                  <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" />
-                </label>
-                <label>
-                  Breakfast protein
-                  <input id="breakfastProtein" name="breakfastProtein" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  Lunch
-                  <textarea id="lunch" name="lunch" rows="2" placeholder="What I ate"></textarea>
-                </label>
-                <label>
-                  Lunch calories
-                  <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" />
-                </label>
-                <label>
-                  Lunch protein
-                  <input id="lunchProtein" name="lunchProtein" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  Evening
-                  <textarea id="snack" name="snack" rows="2" placeholder="Snack / chai / evening food"></textarea>
-                </label>
-                <label>
-                  Evening calories
-                  <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" />
-                </label>
-                <label>
-                  Evening protein
-                  <input id="snackProtein" name="snackProtein" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  Dinner
-                  <textarea id="dinner" name="dinner" rows="2" placeholder="What I ate"></textarea>
-                </label>
-                <label>
-                  Dinner calories
-                  <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" />
-                </label>
-                <label>
-                  Dinner protein
-                  <input id="dinnerProtein" name="dinnerProtein" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  Extra munching
-                  <textarea
-                    id="extraMunching"
-                    name="extraMunching"
-                    rows="2"
-                    placeholder="Biscuit, namkeen, chocolate, anything extra"
-                  ></textarea>
-                </label>
-                <label>
-                  Extra calories
-                  <input id="extraCalories" name="extraCalories" type="number" min="0" step="10" />
-                </label>
-                <label>
-                  Extra protein
-                  <input id="extraProtein" name="extraProtein" type="number" min="0" step="1" />
-                </label>
+              <div class="meal-log-wrap">
+                <table class="meal-log-table">
+                  <thead>
+                    <tr>
+                      <th>Meal</th>
+                      <th>Items had</th>
+                      <th>Calories</th>
+                      <th>Protein</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Breakfast</th>
+                      <td>
+                        <textarea id="breakfast" name="breakfast" rows="1" placeholder="What I ate"></textarea>
+                      </td>
+                      <td>
+                        <input id="breakfastCalories" name="breakfastCalories" type="number" min="0" step="10" aria-label="Breakfast calories" />
+                      </td>
+                      <td>
+                        <input id="breakfastProtein" name="breakfastProtein" type="number" min="0" step="1" aria-label="Breakfast protein" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lunch</th>
+                      <td>
+                        <textarea id="lunch" name="lunch" rows="1" placeholder="What I ate"></textarea>
+                      </td>
+                      <td>
+                        <input id="lunchCalories" name="lunchCalories" type="number" min="0" step="10" aria-label="Lunch calories" />
+                      </td>
+                      <td>
+                        <input id="lunchProtein" name="lunchProtein" type="number" min="0" step="1" aria-label="Lunch protein" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Evening</th>
+                      <td>
+                        <textarea id="snack" name="snack" rows="1" placeholder="Snack / chai / evening food"></textarea>
+                      </td>
+                      <td>
+                        <input id="snackCalories" name="snackCalories" type="number" min="0" step="10" aria-label="Evening calories" />
+                      </td>
+                      <td>
+                        <input id="snackProtein" name="snackProtein" type="number" min="0" step="1" aria-label="Evening protein" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dinner</th>
+                      <td>
+                        <textarea id="dinner" name="dinner" rows="1" placeholder="What I ate"></textarea>
+                      </td>
+                      <td>
+                        <input id="dinnerCalories" name="dinnerCalories" type="number" min="0" step="10" aria-label="Dinner calories" />
+                      </td>
+                      <td>
+                        <input id="dinnerProtein" name="dinnerProtein" type="number" min="0" step="1" aria-label="Dinner protein" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Extra</th>
+                      <td>
+                        <textarea id="extraMunching" name="extraMunching" rows="1" placeholder="Biscuit, namkeen, chocolate"></textarea>
+                      </td>
+                      <td>
+                        <input id="extraCalories" name="extraCalories" type="number" min="0" step="10" aria-label="Extra munching calories" />
+                      </td>
+                      <td>
+                        <input id="extraProtein" name="extraProtein" type="number" min="0" step="1" aria-label="Extra munching protein" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </section>
 

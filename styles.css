@@ -373,14 +373,48 @@ h3 {
   margin-top: 14px;
 }
 
-.simple-meal-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(120px, 0.28fr) minmax(120px, 0.28fr);
-  gap: 12px;
+.meal-log-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
 }
 
-.simple-meal-grid label:nth-child(3n + 1) {
-  min-width: 0;
+.meal-log-table {
+  min-width: 680px;
+}
+
+.meal-log-table th,
+.meal-log-table td {
+  padding: 9px;
+  vertical-align: middle;
+}
+
+.meal-log-table th:first-child {
+  width: 112px;
+}
+
+.meal-log-table th:nth-child(3),
+.meal-log-table th:nth-child(4),
+.meal-log-table td:nth-child(3),
+.meal-log-table td:nth-child(4) {
+  width: 116px;
+}
+
+.meal-log-table tbody th {
+  color: #2d3a38;
+  background: #fbf7ef;
+  font-size: 0.86rem;
+}
+
+.meal-log-table textarea {
+  min-height: 44px;
+  resize: vertical;
+}
+
+.meal-log-table input,
+.meal-log-table textarea {
+  padding: 9px 10px;
 }
 
 .learning-row {
@@ -942,7 +976,6 @@ th {
   }
 
   .simple-rings,
-  .simple-meal-grid,
   .learning-row {
     grid-template-columns: 1fr;
   }
