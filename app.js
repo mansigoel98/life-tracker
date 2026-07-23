@@ -3,14 +3,17 @@ const STORAGE_KEYS = {
   settings: "mansiLifeTracker.settings",
 };
 
+const GOAL_TARGET_VERSION = 2;
+
 const DEFAULT_SETTINGS = {
   scriptUrl: "",
   scriptToken: "",
+  goalTargetVersion: GOAL_TARGET_VERSION,
   goals: {
     steps: 12000,
     water: 2,
     protein: 70,
-    calories: 1600,
+    calories: 1300,
     learning: 60,
     confidence: 5,
     sleep: 7,
@@ -623,6 +626,12 @@ function loadState() {
     ...DEFAULT_SETTINGS.goals,
     ...(settings.goals || {}),
   };
+  if (settings.goalTargetVersion !== GOAL_TARGET_VERSION) {
+    settings.goals.calories = DEFAULT_SETTINGS.goals.calories;
+    settings.goals.protein = DEFAULT_SETTINGS.goals.protein;
+    settings.goalTargetVersion = GOAL_TARGET_VERSION;
+    saveState();
+  }
 }
 
 function saveState() {
