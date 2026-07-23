@@ -1317,10 +1317,10 @@ async function syncFromSheet() {
   updateSyncPill("Loading...");
   try {
     const data = await fetchSheetRows();
-    mergeEntries(data.entries || []);
+    replaceEntriesFromSheet(data.entries || []);
     saveState();
     renderAll();
-    updateSyncPill("Loaded");
+    updateSyncPill(`Loaded ${entries.length}`);
   } catch (error) {
     console.error(error);
     updateSyncPill("Read failed");
@@ -1345,6 +1345,10 @@ function fetchSheetRows() {
 
     window[callbackName] = (payload) => {
       cleanup();
+      if (!payload || payload.ok === false) {
+        reject(new Error(payload?.error || "Sheet returned an invalid response"));
+        return;
+      }
       resolve(payload);
     };
 
@@ -1364,12 +1368,12 @@ function fetchSheetRows() {
   });
 }
 
-function mergeEntries(incoming) {
-  const byDate = new Map(entries.map((entry) => [entry.date, entry]));
+function replaceEntriesFromSheet(incoming) {
+  const byDate = new Map();
   incoming.forEach((entry) => {
     if (!entry.date) return;
     const normalized = normalizeEntryFromSheet(entry);
-    byDate.set(normalized.date, { ...(byDate.get(normalized.date) || {}), ...normalized });
+    byDate.set(normalized.date, normalized);
   });
   entries = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
@@ -1520,10 +1524,10 @@ function seedDemoWeek() {
       }),
     );
   }
-  mergeEntries(demo);
+  entries = demo.sort((a, b) => a.date.localeCompare(b.date));
   saveState();
   renderAll();
-  setStatus("settingsStatus", "Demo week added locally.");
+  setStatus("settingsStatus", "Demo week loaded locally.");
 }
 
 function clearLocalData() {
