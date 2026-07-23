@@ -169,7 +169,6 @@ h3 {
 .hero-panel,
 .score-panel,
 .form-section,
-.chart-card,
 .metric-card,
 .meal-day,
 .prep-card,
@@ -346,7 +345,6 @@ h3 {
 .meal-grid,
 .toggle-grid,
 .metric-grid,
-.chart-grid,
 .prep-grid,
 .weekend-grid {
   display: grid;
@@ -618,50 +616,6 @@ textarea:focus {
   transition: width 600ms ease;
 }
 
-.chart-grid {
-  grid-template-columns: 1.4fr 0.8fr;
-  margin-bottom: 16px;
-}
-
-.chart-card {
-  padding: 20px;
-}
-
-canvas {
-  width: 100%;
-  height: auto;
-}
-
-.heatmap {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-}
-
-.heat-cell {
-  aspect-ratio: 1;
-  border-radius: 6px;
-  background: #edf1ed;
-  border: 1px solid rgba(23, 33, 33, 0.04);
-  position: relative;
-}
-
-.heat-cell[data-level="1"] {
-  background: #f7d8d0;
-}
-
-.heat-cell[data-level="2"] {
-  background: #f5c35b;
-}
-
-.heat-cell[data-level="3"] {
-  background: #86a878;
-}
-
-.heat-cell[data-level="4"] {
-  background: #0f5f5c;
-}
-
 .table-wrap {
   overflow-x: auto;
 }
@@ -907,8 +861,7 @@ th {
 
 @media (max-width: 940px) {
   .simple-today-header,
-  .hero-grid,
-  .chart-grid {
+  .hero-grid {
     grid-template-columns: 1fr;
   }
 
@@ -960,8 +913,7 @@ th {
   }
 
   .hero-copy,
-  .form-section,
-  .chart-card {
+  .form-section {
     padding: 18px;
   }
 
